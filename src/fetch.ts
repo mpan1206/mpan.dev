@@ -7,7 +7,7 @@
  * @see https://docs.astro.build/en/guides/advanced-routing/
  */
 import { Hono } from 'hono'
-import { middleware, pages, sessions, actions } from 'astro/hono'
+import { middleware, pages, sessions, actions, cache, getFetchState } from 'astro/hono'
 
 const app = new Hono()
 
@@ -22,6 +22,17 @@ app.use(async (c, next) => {
 app.use(middleware())
 app.use(sessions())
 app.use(actions())
+
+// Workaround for Astro 7 prerender bug: if cache provider is missing during build, inject a dummy one
+app.use(async (c, next) => {
+  const state = getFetchState(c)
+  if (!state.resolve('cache')) {
+    state.provide('cache', { create: () => ({}) })
+  }
+  await next()
+})
+
+app.use(cache())
 app.use(pages())
 
 app.onError((err, c) => {

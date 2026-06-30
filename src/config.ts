@@ -22,7 +22,7 @@ const config = defineConfig({
       themeColor: '#ffffff',
     },
     seo: {
-      algoliaVerification: '54637A85BD5301FD',
+      algoliaVerification: '62CDEA4CC4572152',
     },
   },
   nav: [

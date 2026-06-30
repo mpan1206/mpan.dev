@@ -1,0 +1,479 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/geist';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: 'Geist Variable', sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  [id] {
+    @apply scroll-mt-24;
+  }
+  /* Only enable smooth scrolling when the user hasn't asked to reduce motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+@layer components {
+  /* Navbar border: only show on scroll */
+  .navbar-border {
+    border-color: color-mix(in oklch, var(--border) 85%, transparent);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .navbar-border {
+      border-color: transparent;
+      animation: navbar-border-reveal 1ms linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 60px;
+    }
+  }
+
+  @keyframes navbar-border-reveal {
+    from {
+      border-color: transparent;
+    }
+    to {
+      border-color: color-mix(in oklch, var(--border) 85%, transparent);
+    }
+  }
+
+  /* Slide enter animations */
+  @keyframes slide-enter {
+    0% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [slide-enter],
+    .slide-enter,
+    .slide-enter-content > *:not(:has(.table-of-contents)) {
+      --enter-stage: 0;
+      --enter-step: 90ms;
+      --enter-initial: 0ms;
+      animation: slide-enter 1s both 1;
+      animation-delay: calc(var(--enter-initial) + var(--enter-stage) * var(--enter-step));
+    }
+
+    .slide-enter-content > *:nth-child(1) {
+      --enter-stage: 1 !important;
+    }
+    .slide-enter-content > *:nth-child(2) {
+      --enter-stage: 2 !important;
+    }
+    .slide-enter-content > *:nth-child(3) {
+      --enter-stage: 3 !important;
+    }
+    .slide-enter-content > *:nth-child(4) {
+      --enter-stage: 4 !important;
+    }
+    .slide-enter-content > *:nth-child(5) {
+      --enter-stage: 5 !important;
+    }
+    .slide-enter-content > *:nth-child(6) {
+      --enter-stage: 6 !important;
+    }
+    .slide-enter-content > *:nth-child(7) {
+      --enter-stage: 7 !important;
+    }
+    .slide-enter-content > *:nth-child(8) {
+      --enter-stage: 8 !important;
+    }
+    .slide-enter-content > *:nth-child(9) {
+      --enter-stage: 9 !important;
+    }
+    .slide-enter-content > *:nth-child(10) {
+      --enter-stage: 10 !important;
+    }
+    .slide-enter-content > *:nth-child(11) {
+      --enter-stage: 11 !important;
+    }
+    .slide-enter-content > *:nth-child(12) {
+      --enter-stage: 12 !important;
+    }
+    .slide-enter-content > *:nth-child(13) {
+      --enter-stage: 13 !important;
+    }
+    .slide-enter-content > *:nth-child(14) {
+      --enter-stage: 14 !important;
+    }
+    .slide-enter-content > *:nth-child(15) {
+      --enter-stage: 15 !important;
+    }
+    .slide-enter-content > *:nth-child(16) {
+      --enter-stage: 16 !important;
+    }
+    .slide-enter-content > *:nth-child(17) {
+      --enter-stage: 17 !important;
+    }
+    .slide-enter-content > *:nth-child(18) {
+      --enter-stage: 18 !important;
+    }
+    .slide-enter-content > *:nth-child(19) {
+      --enter-stage: 19 !important;
+    }
+    .slide-enter-content > *:nth-child(20) {
+      --enter-stage: 20 !important;
+    }
+  }
+}
+
+/* Theme Transition */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+/* NProgress */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: var(--foreground);
+  opacity: 0.75;
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hidden-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hidden-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* ─── DocSearch Modal Theme (shadcn/ui Nova) ─── */
+
+:root {
+  --docsearch-primary-color: var(--foreground);
+  --docsearch-text-color: var(--foreground);
+  --docsearch-spacing: 0.75rem;
+  --docsearch-icon-stroke-width: 1.5;
+  --docsearch-muted-color: var(--muted-foreground);
+  --docsearch-container-background: rgba(0, 0, 0, 0.4);
+  --docsearch-modal-background: var(--popover);
+  --docsearch-modal-shadow: 0 16px 70px rgba(0, 0, 0, 0.15);
+  --docsearch-modal-width: 560px;
+  --docsearch-searchbox-height: 56px;
+  --docsearch-searchbox-background: var(--muted);
+  --docsearch-searchbox-focus-background: var(--background);
+  --docsearch-searchbox-shadow: inset 0 0 0 1px var(--border);
+  --docsearch-hit-color: var(--foreground);
+  --docsearch-hit-active-color: var(--accent-foreground);
+  --docsearch-hit-background: var(--popover);
+  --docsearch-hit-shadow: none;
+  --docsearch-key-gradient: linear-gradient(-225deg, var(--muted), var(--border));
+  --docsearch-key-shadow: inset 0 -1px 0 0 var(--border), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --docsearch-key-pressed-shadow: inset 0 -1px 0 0 var(--border);
+  --docsearch-footer-height: 44px;
+  --docsearch-footer-background: var(--popover);
+  --docsearch-footer-shadow: 0 -1px 0 0 var(--border);
+  --docsearch-logo-color: var(--muted-foreground);
+  --docsearch-highlight-color: var(--primary);
+}
+
+/* The DocSearch container overlay — match sheet overlay style */
+.DocSearch-Container {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Modal — match popover/dropdown style with ring border */
+.DocSearch-Modal {
+  border-radius: var(--radius-lg);
+  box-shadow:
+    var(--docsearch-modal-shadow),
+    0 0 0 1px oklch(0 0 0 / 10%);
+  font-family: var(--font-sans);
+}
+.dark .DocSearch-Modal {
+  box-shadow:
+    var(--docsearch-modal-shadow),
+    0 0 0 1px oklch(1 1 0 / 10%);
+}
+
+/* Search bar */
+.DocSearch-SearchBar {
+  padding: var(--docsearch-spacing);
+}
+
+.DocSearch-Form {
+  border-radius: var(--radius-md);
+  box-shadow: var(--docsearch-searchbox-shadow);
+}
+
+.DocSearch-Input {
+  font-size: 0.9375rem;
+}
+
+.DocSearch-Input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.DocSearch-MagnifierLabel svg,
+.DocSearch-LoadingIndicator svg {
+  color: var(--muted-foreground);
+}
+
+.DocSearch-Reset {
+  color: var(--muted-foreground);
+}
+.DocSearch-Reset:hover {
+  color: var(--foreground);
+}
+
+/* Dropdown panel */
+.DocSearch-Dropdown {
+  max-height: min(calc(var(--docsearch-modal-height) - 150px), 60vh);
+}
+
+/* Section labels */
+.DocSearch-Help,
+.DocSearch-Label {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+/* Hit items — match dropdown-menu-item style */
+.DocSearch-Hit a {
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  padding: 0.5rem 0.75rem;
+}
+
+.DocSearch-Hit-source {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 2rem;
+  margin: 0 -0.25rem;
+  padding: 0.5rem 0.75rem 0;
+}
+
+.DocSearch-Hit-Tree {
+  color: var(--border);
+}
+
+/* Active hit — use accent color like Nova focus state */
+.DocSearch-Hit[aria-selected='true'] a {
+  background: var(--accent);
+}
+
+.DocSearch-Hit[aria-selected='true'] mark {
+  text-underline-offset: 2px;
+}
+
+/* Hit content typography */
+.DocSearch-Hit-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.DocSearch-Hit-path {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+/* Mark / highlight — subtle underline approach */
+.DocSearch-Hit mark {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+/* Start screen (recent/favorites) */
+.DocSearch-StartScreen,
+.DocSearch-NoResults {
+  padding: 1rem 0;
+}
+
+.DocSearch-Screen-Icon {
+  color: var(--muted-foreground);
+}
+
+.DocSearch-NoResults-Prefill-List li {
+  padding: 0;
+}
+
+.DocSearch-Prefill {
+  font-size: 0.875rem;
+  color: var(--primary);
+}
+
+/* Footer — subtle separator */
+.DocSearch-Footer {
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  box-shadow: var(--docsearch-footer-shadow);
+}
+
+.DocSearch-Commands-Key {
+  border-radius: var(--radius-sm);
+  padding: 0 0.25rem;
+  border: 1px solid var(--border);
+  background: var(--muted);
+  box-shadow: none;
+  width: auto;
+  height: 1.25rem;
+}
+
+.DocSearch-Label {
+  font-size: 0.6875rem;
+}
+
+.DocSearch-Logo svg .cls-1,
+.DocSearch-Logo svg .cls-2 {
+  fill: var(--muted-foreground);
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "minimumReleaseAge": "24 hours",
+  "rangeStrategy": "bump",
+  "labels": ["dependencies"],
+  "postUpdateOptions": ["pnpmDedupe"],
+  "ignorePaths": ["**/node_modules/**"],
+  "nvm": {
+    "enabled": false
+  },
+  "packageRules": [
+    {
+      "matchPackageNames": ["astro", "@astrojs/*", "eslint-plugin-astro"],
+      "groupName": "astro ecosystem"
+    },
+    {
+      "matchPackageNames": ["tailwindcss", "@tailwindcss/*", "prettier-plugin-tailwindcss"],
+      "groupName": "tailwind ecosystem"
+    },
+    {
+      "matchPackageNames": ["typescript", "eslint", "@typescript-eslint/*"],
+      "groupName": "typescript-eslint ecosystem"
+    },
+    {
+      "matchPackageNames": [
+        "husky",
+        "lint-staged",
+        "commitizen",
+        "cz-conventional-changelog",
+        "@commitlint/*"
+      ],
+      "groupName": "git workflow tools"
+    },
+    {
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "react ecosystem"
+    },
+    {
+      "matchPackageNames": [
+        "radix-ui",
+        "lucide-react",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "groupName": "ui ecosystem"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["engines"],
+      "enabled": false
+    }
+  ]
+}

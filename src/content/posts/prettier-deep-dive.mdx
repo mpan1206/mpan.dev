@@ -1,0 +1,508 @@
+---
+title: 'Prettier 深度解析：从 AST 到企业级工程化实践，为什么团队都在选择它？'
+publishDate: 2023-10-02
+featured: true
+tags:
+  - Prettier
+  - 工程化
+  - 前端
+  - AST
+description: '本文从代码风格之争说起，深入 Prettier 的底层实现原理，理清它与 ESLint 的分工关系，并结合企业级工程实践和最新的生态变化，帮你彻底搞懂现代前端项目里的代码格式化方案。'
+---
+
+## 前言
+
+如果你参与过团队开发，大概率经历过这样的场景：Code Review 时，评论区刷出一长串无关业务逻辑的修改建议。
+
+{/* prettier-ignore */}
+```js
+const name="Tom"
+// 改成
+const name = "Tom";
+
+if(condition){
+// 改成
+if (condition) {
+
+const arr = [1,2,3]
+// 改成
+const arr = [1, 2, 3];
+```
+
+这些修改不影响任何业务逻辑，却带来了实实在在的成本：Git Diff 变大、Code Review 时间变长、团队成员开始为"该用单引号还是双引号"争论不休，项目代码也在日积月累中变得风格混乱。
+
+Prettier 的出现，就是为了终结这种无意义的消耗。
+
+## 一、代码风格之争，本质是什么
+
+很多团队最初尝试用"规范"解决问题：统一使用单引号、统一两空格缩进、统一加分号、统一保留尾逗号，然后把这些规则写进团队 Wiki。
+
+问题是，规范是软约束，人是不可靠的执行者。总有人会忘记，总有人用着不同的编辑器和默认配置，总有人复制粘贴了风格迥异的旧代码。久而久之，项目会变成这样：
+
+```
+src
+├── user.js
+├── order.js
+├── product.js
+└── payment.js
+```
+
+每个文件风格不同，甚至同一个文件内部也充满矛盾：
+
+{/* prettier-ignore */}
+```js
+const name = "Tom"
+const age=18;
+const city='Shanghai'
+```
+
+这正是问题的本质——风格一致性如果依赖人的自觉，就注定无法持续。Wiki 文档解决不了的，需要工具来解决。
+
+## 二、Prettier 的设计哲学：把"风格"从讨论中移除
+
+Prettier 官方把自己定义为 **Opinionated Code Formatter**，也就是"一个有主见的代码格式化工具"。它的目标非常直接：**不要再讨论代码格式，把决定权交给工具。**
+
+这里的关键词是"有主见"。很多格式化或 Lint 工具会提供大量可配置项，让团队按自己的偏好定制规则；Prettier 反其道而行：它确实保留了诸如 `printWidth`、`tabWidth`、`semi`、`singleQuote`、`trailingComma`、`arrowParens` 这样一组核心选项，但对于纯粹审美层面的细节——比如大括号到底要不要换行——它刻意不开放配置。例如下面这种写法：
+
+{/* prettier-ignore */}
+```js
+if ()
+{
+}
+```
+
+Prettier 永远会把它统一成：
+
+```js
+if () {
+}
+```
+
+你无法通过配置改变这一点。Prettier 团队对"新增配置项"的态度也极为审慎，按照他们公开的 [Option Philosophy](https://prettier.io/docs/option-philosophy)，新选项只有在存在真实的技术必要性（比如要兼容某种语法生态）时才会被考虑，单纯的审美偏好诉求通常会被拒绝。`objectWrap`、`experimentalOperatorPosition` 这类选项都是在长期讨论、确认确有必要后才谨慎加入的，而不是"想要就能加"。
+
+减少选择，本质上是为了减少争论、提高效率——这也是 Prettier 区别于传统 Lint 风格规则的核心思路。
+
+## 三、Prettier 到底做了什么：Parser → AST → Printer
+
+很多人误以为 Prettier 等于"查找替换"，这是个常见的误解。Prettier 的核心其实是一套 **Parser + AST + Printer** 系统。
+
+### 1. 从源码到 AST
+
+假设有这样一行代码：
+
+{/* prettier-ignore */}
+```js
+const sum=(a,b)=>a+b
+```
+
+Prettier 的第一步是把它解析成抽象语法树（AST）：
+
+<Mermaid>{`graph TD
+    A[源代码] --> B[Parser]
+    B --> C[AST]
+`}</Mermaid>
+
+得到的 AST 大致是这样的结构（简化示意）：
+
+```json
+{
+  "type": "VariableDeclaration",
+  "kind": "const",
+  "declarations": [
+    {
+      "type": "VariableDeclarator"
+    }
+  ]
+}
+```
+
+注意，此时空格、换行、缩进、单双引号这些"表层信息"都已经在解析过程中被丢弃了，只剩下代码的结构本身。
+
+### 2. 什么是 AST
+
+AST 全称 Abstract Syntax Tree，抽象语法树。比如表达式 `1 + 2 * 3` 对应的结构是：
+
+<Mermaid>{`graph TD
+    A["+"] --> B["1"]
+    A --> C["*"]
+    C --> D["2"]
+    C --> E["3"]
+`}</Mermaid>
+
+这里保存的是表达式之间的结构关系，而不是原始文本——这正是 Prettier 输出稳定的根本原因。
+
+### 3. Printer：把 AST 重新打印成代码
+
+AST 生成之后，Prettier 会基于一套统一规则把它重新"打印"出来：
+
+<Mermaid>{`graph TD
+    A[AST] --> B[Printer]
+    B --> C[格式化后的代码]
+`}</Mermaid>
+
+输入 `const sum=(a,b)=>a+b`，输出：
+
+```js
+const sum = (a, b) => a + b
+```
+
+整个链路完整地看是：
+
+<Mermaid>{`graph TD
+    A[源代码] --> B[Parser]
+    B --> C[AST]
+    C --> D[Printer]
+    D --> E[格式化后的代码]
+`}</Mermaid>
+
+### 4. 为什么 Prettier 的输出永远稳定
+
+因为它根本不关心原始代码长什么样。无论是：
+
+{/* prettier-ignore */}
+```js
+const a=1
+```
+
+还是：
+
+{/* prettier-ignore */}
+```js
+const a = 1;
+```
+
+解析后的 AST 是完全一样的，因此 Printer 永远会输出同一种结果——`const a = 1;`。这种"无视输入、只认结构"的设计，让 Prettier 具备了天然的幂等性：同一份代码反复格式化，结果永远一致。
+
+### 5. 不同语言，背后是不同的 Parser
+
+值得补充的一点是：Prettier 并不是用一套通用解析器处理所有语言。它的内部架构本质上是"核心引擎 + 各语言插件"的组合——JavaScript/TypeScript/Flow 走的是 Babel 或 TypeScript 自身的解析器，CSS/Less/SCSS 走 PostCSS，Markdown 走 remark，YAML 有专门的 YAML 解析器，HTML、GraphQL、Angular 模板也各自有对应的 Parser 和 Printer 实现。Prettier 官方自身支持的语言其实都是用这套插件 API 实现的，只是这些插件随核心包一起发布,所以使用时感觉是"内置"的。理解这一点，有助于理解为什么 Prettier 可以通过社区插件不断扩展到新的语言。
+
+## 四、Prettier 支持哪些语言
+
+按照 Prettier 官方文档的口径,核心包（无需额外安装插件）直接支持：
+
+- JavaScript（包括部分实验性语法）
+- JSX / TypeScript / Flow
+- Vue、Angular 模板
+- CSS、Less、SCSS
+- HTML
+- Ember / Handlebars
+- JSON（含 JSON5、JSONC 等变体的解析器）
+- GraphQL
+- Markdown（包括 GFM 和 MDX v1）
+- YAML
+
+而 Astro、XML、PHP、Ruby、Swift 等语言，是通过**官方或社区维护的独立插件**支持的，并不随 Prettier 核心包内置——这一点很容易被忽视：你需要单独安装 `prettier-plugin-astro` 或 `@prettier/plugin-xml` 之类的包，并显式注册到配置中才能生效，具体方式在后面"插件生态"一节会展开。
+
+## 五、为什么 Prettier 如此受欢迎
+
+真正的原因并不是"格式化"本身,而是它带来的副产品——**更干净的 Git Diff**。
+
+没有 Prettier 之前，一次只改了变量名的提交可能看起来是这样：
+
+```diff
+- const name="Tom"
++ const name = "Tom";
+```
+
+整个 Commit 里全是格式噪音，真正的逻辑改动被淹没在里面。而用上 Prettier 之后，Diff 里只会留下真正有意义的变化：
+
+```diff
+- return oldPrice;
++ return discountedPrice;
+```
+
+Code Review 的注意力也因此从"这里该不该加分号"转移到了"这段业务逻辑对不对"上——这才是 Prettier 真正改变的东西。
+
+## 六、Prettier 与 ESLint：分工而非竞争
+
+这是前端领域最经典的疑问之一：两者到底谁该管什么？
+
+ESLint 负责**代码质量**：比如检测未使用的变量（`no-unused-vars`）、建议用 `===` 代替 `==`，这些是会影响程序正确性的问题。Prettier 负责**代码格式**：空格、缩进、换行、引号风格——纯粹是视觉层面的统一,不涉及逻辑判断。
+
+<Mermaid>{`graph TD
+    A[ESLint] --> B[代码质量：会不会出 Bug]
+    C[Prettier] --> D[代码格式：长得统一不统一]
+`}</Mermaid>
+
+记住一句话：**ESLint 负责代码是否正确，Prettier 负责代码是否统一。**
+
+### 历史上为什么会冲突
+
+早期 ESLint 自带了一些格式类规则，比如 `indent`、`quotes`、`semi`。如果项目里同时跑着 ESLint 和 Prettier，两者很容易对同一处代码给出矛盾的修改意见,演变成"改一次又被改回去"的拉锯战。
+
+### 现代解决方案
+
+正确做法是用 `eslint-config-prettier` 关闭 ESLint 中所有可能和 Prettier 冲突的格式化规则,让 ESLint 专注代码质量、Prettier 专注代码格式。
+
+如果你的项目还在用旧版 `.eslintrc` 格式，写法是：
+
+```json
+{
+  "extends": ["some-other-config", "prettier"]
+}
+```
+
+但如果你用的是 ESLint 9 之后默认的 **flat config**（`eslint.config.js`），写法完全不同——flat config 里没有 `extends` 这个字段，正确的方式是把 `eslint-config-prettier` 作为一个配置对象直接放进数组，并且要放在其他配置**之后**，这样它才能覆盖掉前面冲突的规则：
+
+```js
+// eslint.config.js
+import js from '@eslint/js'
+import eslintConfigPrettier from 'eslint-config-prettier/flat'
+
+export default [
+  js.configs.recommended,
+  // 你的其他配置（react、typescript-eslint 等）放在这里
+  eslintConfigPrettier, // 必须放在最后，用来关闭与 Prettier 冲突的规则
+]
+```
+
+### 一个容易被忽略的细节：不要用 eslint-plugin-prettier 跑 Prettier
+
+早些年很流行的另一种做法是装上 `eslint-plugin-prettier`，把 Prettier 包装成一条 ESLint 规则（`prettier/prettier`），这样格式问题也会以 ESLint 报错的形式出现。但这种方式现在已经不太被推荐了——它会拖慢 ESLint 的执行速度，报错信息也不如 Prettier 原生输出直观。目前更主流的做法是让两个工具完全独立运行：`prettier --write` 管格式,`eslint --fix` 管质量,`eslint-config-prettier` 只负责"消除两者的冲突区域"，而不参与实际格式化工作。
+
+## 七、企业级工程化实践
+
+### 编辑器集成：VS Code
+
+安装插件 **Prettier - Code formatter**，并在设置中开启保存时自动格式化：
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
+```
+
+效果是按下 `Ctrl + S`（或 `Cmd + S`），代码立即被格式化。
+
+### .prettierrc：企业级推荐配置
+
+```json
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "arrowParens": "always"
+}
+```
+
+| 配置项          | 推荐值 | 说明                                                               |
+| --------------- | ------ | ------------------------------------------------------------------ |
+| `printWidth`    | 100    | 默认是 80，团队普遍偏好稍宽一些以减少不必要的换行                  |
+| `tabWidth`      | 2      | 业界最常见的缩进宽度                                               |
+| `semi`          | true   | 语句末尾加分号，避免 ASI（自动分号插入）带来的隐患                 |
+| `singleQuote`   | true   | 统一使用单引号                                                     |
+| `trailingComma` | all    | 自 Prettier 3.0 起这其实已经是默认值，写出来主要是为了配置清晰可读 |
+| `arrowParens`   | always | 箭头函数参数始终加括号，自 Prettier 2.0 起也已是默认值             |
+
+需要补充的是：上面这套配置里，`trailingComma: "all"` 和 `arrowParens: "always"` 现在其实都已经是 Prettier 的默认行为，显式写出来更多是为了让团队配置自解释、不依赖"记住默认值是什么"。
+
+别忘了配一个 `.prettierignore`，避免格式化构建产物和第三方代码：
+
+```
+node_modules
+dist
+build
+.next
+coverage
+pnpm-lock.yaml
+package-lock.json
+```
+
+### Git Hooks 自动检查：Husky + lint-staged
+
+光靠"保存时格式化"管不住所有人——总有人用着没装插件的编辑器,或者干脆没保存就提交了。这时候需要在提交环节兜底：
+
+```bash
+npm install husky lint-staged -D
+```
+
+```json
+{
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": ["prettier --write"]
+  }
+}
+```
+
+整个流程是：
+
+<Mermaid>{`graph TD
+    A[git commit] --> B[lint-staged]
+    B --> C[prettier --write]
+    C --> D[提交完成]
+`}</Mermaid>
+
+### CI/CD 方案
+
+本地的钩子终究可以被 `--no-verify` 绕过，真正的最后一道防线在服务器端。一个典型的 GitHub Actions 配置：
+
+```yaml
+name: prettier-check
+on:
+  pull_request:
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npx prettier . --check
+```
+
+格式不通过的 PR 会被直接拦在合并之前，从制度上杜绝"漏网之鱼"。
+
+### Monorepo 如何配置
+
+```
+monorepo
+│
+├── apps
+│   ├── admin
+│   └── web
+│
+├── packages
+│   ├── ui
+│   └── utils
+│
+└── .prettierrc
+```
+
+推荐做法是在仓库根目录放一份统一的 `.prettierrc`，所有子项目共享同一套规则,避免 `admin` 用单引号、`web` 用双引号这种割裂局面。如果某个子目录确实有特殊需求（比如某个包里的 Markdown 文档需要 `proseWrap: "always"`），可以用 `.prettierrc` 中的 `overrides` 字段做局部覆盖，而不必拆出多份互相独立的配置文件。
+
+## 八、Prettier 插件生态
+
+### Tailwind CSS：自动排序类名
+
+先安装插件：
+
+```bash
+npm install prettier-plugin-tailwindcss -D
+```
+
+然后必须把它加进配置的 `plugins` 数组才会生效（这一步在很多教程里容易被省略）：
+
+```js
+// prettier.config.js
+export default {
+  plugins: ['prettier-plugin-tailwindcss'],
+}
+```
+
+官方给出的实际效果是这样的：
+
+{/* prettier-ignore */}
+```html
+<!-- Before -->
+<button class="text-white px-4 sm:px-8 py-2 sm:py-3 bg-sky-700 hover:bg-sky-800">...</button>
+<!-- After -->
+<button class="bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3">...</button>
+```
+
+插件按 Tailwind 推荐的类名顺序自动重排，不会改变任何视觉效果，但能让团队成员不再为"类名先写颜色还是先写布局"争执。如果你的项目里还装了其他格式化类插件（比如处理 import 排序的插件），需要保证 `prettier-plugin-tailwindcss` 在 `plugins` 数组里排在**最后**，它依赖前面插件已经处理完的结果。
+
+### Astro 支持
+
+```bash
+npm install prettier-plugin-astro -D
+```
+
+官方建议在配置里显式指定 `.astro` 文件使用的 parser，兼容性会更好：
+
+```js
+// prettier.config.mjs
+export default {
+  plugins: ['prettier-plugin-astro'],
+  overrides: [
+    {
+      files: '*.astro',
+      options: { parser: 'astro' },
+    },
+  ],
+}
+```
+
+如果你用的是 Astro 官方 VS Code 插件，它本身已经内置了 Prettier 和这个插件，无需额外配置编辑器；只有在命令行或 CI 里跑格式化检查时，才需要把它显式装进项目依赖。
+
+### XML 支持
+
+```bash
+npm install @prettier/plugin-xml -D
+```
+
+同样需要加入 `plugins` 数组才能让 Prettier 识别 `.xml` 文件。
+
+### 官方新插件：@prettier/plugin-oxc 与 @prettier/plugin-hermes
+
+Prettier 团队近期也在主动求变。在 2025 年底发布的 3.7 版本中，官方推出了两个独立发布的新插件：`@prettier/plugin-oxc`（基于 Rust 编写的 Oxc 项目提供更快的 JS/TS 解析）和 `@prettier/plugin-hermes`（面向 React Native 所用的 Hermes 引擎语法）。这两个插件不随核心包默认启用，但代表了 Prettier 在"保持兼容输出格式"的前提下，逐步引入更快解析器的方向。
+
+## 九、Prettier 3.x 的演进：不只是一次"大版本升级"
+
+2023 年 7 月发布的 Prettier 3.0 确实带来了一批硬性的破坏性变更，但具体内容比"全面拥抱 ESM"这一句话要丰富得多：
+
+- **插件支持 ESM 和异步 Parser**：插件可以用 ESM 语法编写，配置文件也支持 ESM；为了支持异步解析嵌入语言（比如 Markdown 里的代码块），Printer 的 `embed` 方法签名发生了不兼容的改动，老插件需要按官方迁移指南升级。
+- **最低 Node.js 版本要求提升到 14**：这是 3.0 发布时的硬性门槛，之后随着版本迭代，要求还在持续上调——目前最新的 3.8.x 系列已经把最低要求提到了 Node.js 20。
+- **`trailingComma` 默认值从 `es5` 改为 `all`**：原因很直接，曾经唯一不支持函数调用尾逗号的浏览器 IE 在 2022 年已经停止支持，这个历史包袱被顺势移除。
+
+  3.0 之后的几个版本也各有侧重，值得留意：
+
+| 版本 | 时间          | 关键变化                                                                                                |
+| ---- | ------------- | ------------------------------------------------------------------------------------------------------- |
+| 3.1  | 2023 年末     | 引入实验性的 `--experimental-ternaries`，给嵌套三元表达式提供一种更易读的"curious ternaries"排版风格    |
+| 3.5  | 2025 年 2 月  | 新增 `objectWrap` 和 `experimentalOperatorPosition` 选项，并支持用 TypeScript 编写配置文件              |
+| 3.6  | 2025 年中     | 推出实验性的高性能 CLI（`--experimental-cli` 标志），社区基准测试显示在大型项目上比旧 CLI 快数倍        |
+| 3.7  | 2025 年 11 月 | 统一 Class 与 Interface 的格式规则，发布 `@prettier/plugin-oxc`、`@prettier/plugin-hermes` 两个官方插件 |
+| 3.8  | 2025 年末     | 支持 Angular v21.1 的新语法                                                                             |
+
+值得一提的是,代号为 4.0 的下一个大版本至今仍处于 alpha 阶段，尚未正式发布；它的核心卖点正是把那套实验性高性能 CLI 变成默认行为，这背后也和下文提到的 Rust 系格式化工具带来的性能竞争压力不无关系。
+
+## 十、Prettier 的局限性
+
+Prettier 并非万能。它**不会**：
+
+- 修复 Bug、消除重复逻辑或做任何代码重构
+- 优化运行性能，比如把低效的 `for` 循环改写成更快的写法
+- 自动整理 import 顺序（这是 `eslint-plugin-simple-import-sort` 或 `prettier-plugin-organize-imports` 之类工具的职责)
+- 检查命名是否规范、注释是否完整——这些仍然需要人或 ESLint 规则来把关
+
+它只负责一件事：**让代码长得统一**。这种"职责单一"恰恰是它能稳定运行十年而不出岔子的原因。
+
+## 十一、新变量：Rust 系格式化工具带来的格局变化
+
+近两年值得关注的一个趋势是，一批用 Rust 编写的高性能工具开始挑战 Prettier 的统治地位。
+
+**Biome**（前身是 Meta 的 Rome 项目）是其中最具代表性的一个，它把格式化和 Lint 合并进同一个二进制工具，官方公布的数据显示其格式化输出与 Prettier 的兼容度大约在 97% 左右，速度优势在大型代码库上相当明显。
+
+**Oxfmt**（由 VoidZero 团队基于 Oxc 项目打造）走的是另一条路线：它更专注于和 Prettier 输出尽量保持一致，定位为"几乎可以直接替换 Prettier"的格式化器，官方公布的基准数据显示它的速度比 Prettier 快了一个数量级以上，也比 Biome 更快——不过截至目前它仍处于较早期的发布阶段。
+
+这股压力也促使 Prettier 团队自身加快了性能优化的步伐，前面提到的实验性高性能 CLI 和官方 Oxc 解析器插件，都是这一背景下的产物。
+
+不过短期内 Prettier 仍然是事实标准:它的生态最成熟、语言覆盖最广、社区插件最多，对于已经稳定运行的项目而言,迁移成本往往比性能提升更值得权衡。是否要为了速度切换工具链,更适合作为一个团队层面的、结合项目规模和长期维护成本的独立决策,而不是默认选项。
+
+## 十二、一张图理解现代前端工程化流水线
+
+<Mermaid>{`graph TD
+    A[开发者编写代码] --> B[VS Code 保存触发格式化]
+    B --> C[Prettier 统一代码风格]
+    C --> D[ESLint 检查代码质量]
+    D --> E[git commit]
+    E --> F[Husky 触发钩子]
+    F --> G[lint-staged 只处理改动文件]
+    G --> H[GitHub Actions 在 CI 中复检]
+    H --> I[Pull Request 合并]
+`}</Mermaid>
+
+## 总结
+
+Prettier 真正改变的不是代码"长得好不好看"，而是团队的协作方式。在没有 Prettier 的时代，大家争论的是风格;在有 Prettier 的时代，大家讨论的是业务。
+
+工具解决了重复劳动，开发者才能把精力放回真正创造价值的地方。
+
+如果用一句话总结：**Prettier 不是为了让代码更漂亮，而是为了让团队不再为代码风格浪费时间。**
+
+---
+
+延伸阅读：[Prettier 官方文档](https://prettier.io/docs/) · [Prettier Option Philosophy](https://prettier.io/docs/option-philosophy) · [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) · [Tailwind CSS Prettier 插件公告](https://tailwindcss.com/blog/automatic-class-sorting-with-prettier)

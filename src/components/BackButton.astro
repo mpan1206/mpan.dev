@@ -1,0 +1,33 @@
+---
+import { ChevronLeft } from 'lucide-react'
+
+export interface Props {
+  className?: string
+}
+
+const { className } = Astro.props
+---
+
+<a
+  id="back-button"
+  href="/posts/"
+  class:list={[
+    'group flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground',
+    className,
+  ]}
+>
+  <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-1" />
+  <span>返回</span>
+</a>
+
+<script>
+  function updateGoBackUrl() {
+    const backButton = document.querySelector<HTMLAnchorElement>('#back-button')
+    const backUrl = sessionStorage.getItem('backUrl')
+    if (backUrl && backButton) {
+      backButton.href = backUrl
+    }
+  }
+
+  document.addEventListener('astro:page-load', updateGoBackUrl)
+</script>

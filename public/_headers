@@ -1,0 +1,10 @@
+# Cloudflare Pages security headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), interest-cohort=()
+  # A strict Content-Security-Policy is intentionally omitted: the layout relies
+  # on an inline FOUC-prevention script, which a default CSP would block without
+  # adding per-build hashes/nonces.

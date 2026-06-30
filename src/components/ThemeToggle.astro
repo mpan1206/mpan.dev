@@ -1,0 +1,19 @@
+---
+import { Sun, Moon } from 'lucide-react'
+import { buttonVariants } from '@/components/ui/button'
+
+// Toggle behaviour (and the view-transition reveal) lives in src/scripts/theme.ts,
+// wired via the [data-theme-toggle] attribute (the header renders one button for
+// desktop and one for mobile). Rendered statically so no React ships to the client.
+---
+
+<button
+  data-theme-toggle
+  type="button"
+  aria-label="切换主题"
+  title="切换主题"
+  class={buttonVariants({ variant: 'ghost' })}
+>
+  <Sun className="size-5 dark:hidden" />
+  <Moon className="hidden size-5 dark:block" />
+</button>

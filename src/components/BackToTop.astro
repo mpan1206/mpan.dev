@@ -1,0 +1,47 @@
+---
+import { ArrowUp } from 'lucide-react'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+---
+
+<div
+  id="back-to-top"
+  class="pointer-events-none fixed right-8 bottom-8 z-50 translate-y-4 opacity-0 transition-all duration-300 ease-in-out"
+>
+  <button
+    type="button"
+    aria-label="回到顶部"
+    class={cn(
+      buttonVariants({ variant: 'outline', size: 'icon' }),
+      'h-12 w-12 rounded-full border-border bg-background/80 shadow-lg backdrop-blur-sm transition-transform hover:-translate-y-1 hover:bg-accent hover:text-accent-foreground'
+    )}
+  >
+    <ArrowUp className="size-6" />
+  </button>
+</div>
+
+<script>
+  function update(): void {
+    const el = document.getElementById('back-to-top')
+    if (!el) return
+    const show = window.scrollY > 300
+    el.classList.toggle('opacity-100', show)
+    el.classList.toggle('translate-y-0', show)
+    el.classList.toggle('opacity-0', !show)
+    el.classList.toggle('translate-y-4', !show)
+    el.classList.toggle('pointer-events-none', !show)
+  }
+
+  // The document survives View Transitions, so register listeners once.
+  // Click is delegated from the document, avoiding re-binding the swapped
+  // button on every navigation (which would accumulate listeners).
+  window.addEventListener('scroll', update, { passive: true })
+
+  document.addEventListener('click', (event) => {
+    if ((event.target as Element).closest('#back-to-top button')) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  })
+
+  document.addEventListener('astro:page-load', update)
+</script>

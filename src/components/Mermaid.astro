@@ -18,8 +18,7 @@ const { className = '' } = Astro.props
     ({
       startOnLoad: false,
       theme: (document.documentElement.classList.contains('dark') ? 'dark' : 'default') as
-        | 'dark'
-        | 'default',
+        'dark' | 'default',
       securityLevel: 'loose',
       fontFamily: 'inherit',
       useMaxWidth: false,

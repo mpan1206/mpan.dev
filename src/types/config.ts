@@ -4,15 +4,7 @@
 
 /** All recognised platform / icon identifiers (social + share). */
 export type PlatformName =
-  | 'github'
-  | 'twitter'
-  | 'bluesky'
-  | 'rss'
-  | 'weibo'
-  | 'zhihu'
-  | 'bilibili'
-  | 'qq'
-  | 'discord'
+  'github' | 'twitter' | 'bluesky' | 'rss' | 'weibo' | 'zhihu' | 'bilibili' | 'qq' | 'discord'
 
 /** Platforms that expose a share-URL template. Subset of PlatformName. */
 export type ShareName = 'twitter' | 'weibo' | 'qq'

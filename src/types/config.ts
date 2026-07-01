@@ -44,18 +44,10 @@ export interface SiteBranding {
   themeColor: string
 }
 
-/** Optional SEO / structured-data fields. */
-export interface SiteSEO {
-  googleVerification?: string
-  algoliaVerification?: string
-  profile?: string
-}
-
 export interface SiteConfig {
   meta: SiteMeta
   locale: SiteLocale
   brand: SiteBranding
-  seo?: SiteSEO
 }
 
 // ============================================================================
@@ -84,11 +76,19 @@ export interface NavLink {
 // Top-level config
 // ============================================================================
 
+export interface AlgoliaConfig {
+  appId: string
+  indexName: string
+  apiKey: string
+  algoliaVerification: string
+}
+
 export interface MpanConfig {
   site: SiteConfig
   nav: NavLink[]
   social: SocialLink[]
   share: ShareLink[]
+  algolia?: AlgoliaConfig
 }
 
 /** Type-safe config helper. */

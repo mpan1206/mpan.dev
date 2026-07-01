@@ -5,12 +5,10 @@ import { SearchIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
+import config from '@/config'
 
-const DOC_SEARCH_CONFIG = {
-  appId: import.meta.env.PUBLIC_DOCSEARCH_APP_ID,
-  indexName: import.meta.env.PUBLIC_DOCSEARCH_INDEX_NAME,
-  apiKey: import.meta.env.PUBLIC_DOCSEARCH_API_KEY,
-} as const
+// We assert that config.algolia exists since we configured it
+const DOC_SEARCH_CONFIG = config.algolia!
 
 const MODAL_TRANSLATIONS = {
   searchBox: {

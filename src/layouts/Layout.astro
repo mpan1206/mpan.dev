@@ -43,13 +43,8 @@ const socialImageURL = ogImage ? new URL(ogImage, site.meta.url).href : undefine
     <!-- Sensible default; theme.ts refines it at runtime to match the background colour -->
     <meta name="theme-color" content={site.brand.themeColor} />
     {
-      site.seo?.googleVerification && (
-        <meta name="google-site-verification" content={site.seo.googleVerification} />
-      )
-    }
-    {
-      site.seo?.algoliaVerification && (
-        <meta name="algolia-site-verification" content={site.seo.algoliaVerification} />
+      config.algolia?.algoliaVerification && (
+        <meta name="algolia-site-verification" content={config.algolia.algoliaVerification} />
       )
     }
 

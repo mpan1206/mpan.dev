@@ -21,9 +21,6 @@ const config = defineConfig({
       ogImage: '/og.png',
       themeColor: '#ffffff',
     },
-    seo: {
-      algoliaVerification: '62CDEA4CC4572152',
-    },
   },
   nav: [
     { href: '/posts/', label: '文章' },
@@ -84,6 +81,12 @@ const config = defineConfig({
     { name: 'weibo', linkTitle: '分享到微博' },
     { name: 'qq', linkTitle: '分享到 QQ' },
   ],
+  algolia: {
+    appId: 'VDV72XTROS',
+    indexName: 'mpan.dev',
+    apiKey: '9dab2a089fafc0c6f577547bcae43a85',
+    algoliaVerification: '62CDEA4CC4572152',
+  },
 })
 
 export default config

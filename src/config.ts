@@ -82,10 +82,10 @@ const config = defineConfig({
     { name: 'qq', linkTitle: '分享到 QQ' },
   ],
   algolia: {
-    appId: 'VDV72XTROS',
-    indexName: 'mpan.dev',
-    apiKey: '9dab2a089fafc0c6f577547bcae43a85',
-    algoliaVerification: '62CDEA4CC4572152',
+    appId: import.meta.env.PUBLIC_DOCSEARCH_APP_ID,
+    indexName: import.meta.env.PUBLIC_DOCSEARCH_INDEX_NAME,
+    apiKey: import.meta.env.PUBLIC_DOCSEARCH_API_KEY,
+    algoliaVerification: import.meta.env.PUBLIC_DOCSEARCH_VERIFICATION,
   },
 })
 

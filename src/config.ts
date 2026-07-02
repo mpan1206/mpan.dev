@@ -59,7 +59,7 @@ const config = defineConfig({
     },
     {
       name: 'zhihu',
-      url: 'https://www.zhihu.com/people/mpan1206',
+      url: 'https://www.zhihu.com/people/minpan-dev',
       linkTitle: '知乎',
       placements: ['hero'],
     },

@@ -1,0 +1,91 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Header from '@/components/Header.astro'
+import Main from '@/components/Main.astro'
+import Footer from '@/components/Footer.tsx'
+import { getCollection } from 'astro:content'
+import PostCard from '@/components/PostCard.tsx'
+import { getReadingTime } from '@/utils/readingTime'
+
+const allPosts = await getCollection('posts')
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+)
+
+const postsByYearAndMonth = sortedPosts.reduce(
+  (acc, post) => {
+    const date = post.data.publishDate
+    const year = date.getFullYear()
+    const month = date.toLocaleDateString('zh-CN', { month: 'short' })
+
+    if (!acc[year]) {
+      acc[year] = { count: 0, months: {} }
+    }
+    acc[year].count++
+
+    if (!acc[year].months[month]) {
+      acc[year].months[month] = { count: 0, posts: [] }
+    }
+    acc[year].months[month].count++
+    acc[year].months[month].posts.push(post)
+
+    return acc
+  },
+  {} as Record<
+    number,
+    {
+      count: number
+      months: Record<string, { count: number; posts: typeof sortedPosts }>
+    }
+  >
+)
+
+const years = Object.keys(postsByYearAndMonth)
+  .map(Number)
+  .sort((a, b) => b - a)
+---
+
+<Layout title="文章" ogType="website">
+  <Header activeNav="posts" />
+  <Main class="max-w-4xl" pageTitle="文章" pageDesc="关于设计与工程的思考、教程和见解。">
+    <div class="slide-enter-content flex flex-col gap-12">
+      {
+        years.map((year) => (
+          <section>
+            <h2 class="mb-8 flex items-center gap-2 text-2xl font-bold tracking-tight text-foreground">
+              {year} 年
+              <span class="flex h-6 items-center justify-center rounded-full bg-muted px-2.5 text-sm font-medium text-muted-foreground">
+                {postsByYearAndMonth[year].count}
+              </span>
+            </h2>
+            <div class="flex flex-col gap-10 pl-4 sm:pl-8">
+              {Object.entries(postsByYearAndMonth[year].months).map(([month, data]) => (
+                <div class="flex flex-col sm:flex-row sm:items-start sm:gap-8 lg:gap-12">
+                  <h3 class="mb-4 flex w-32 shrink-0 items-center gap-2 text-lg font-bold text-foreground sm:mt-1 sm:mb-0">
+                    {month}
+                    <span class="flex h-5 items-center justify-center rounded-full bg-muted px-2 text-xs font-medium text-muted-foreground">
+                      {data.count}
+                    </span>
+                  </h3>
+                  <div class="flex grow flex-col gap-8">
+                    {data.posts.map((post) => (
+                      <PostCard
+                        title={post.data.title}
+                        description={post.data.description}
+                        date={post.data.publishDate}
+                        href={`/posts/${post.id}/`}
+                        tags={post.data.tags}
+                        readingTime={getReadingTime(post.body ?? '')}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </Main>
+  <Footer />
+</Layout>

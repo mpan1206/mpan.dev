@@ -1,0 +1,102 @@
+---
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import ThemeToggle from '@/components/ThemeToggle.astro'
+import { SocialIcon } from '@/components/SocialIcon'
+import MobileMenu from '@/components/MobileMenu'
+import Search from '@/components/search/Search'
+import config from '@/config'
+
+const { site, nav, social } = config
+
+const navbarSocials = social.filter((s) => s.placements.includes('navbar'))
+
+const localizedNav = nav.map((link) => ({
+  href: link.href,
+  label: link.href.includes('posts') ? '文章' : '项目',
+}))
+---
+
+<header class="navbar-border fixed top-0 z-50 w-full border-b border-transparent bg-background">
+  <div class="box-border w-full px-5 py-4 sm:px-8 sm:py-5">
+    <div class="flex items-center justify-between">
+      <div class="flex shrink-0 items-center">
+        <a
+          href="/"
+          class="flex items-center text-2xl font-bold text-foreground transition-colors hover:text-foreground/80"
+        >
+          {
+            site.brand.logo ? (
+              <>
+                <img src={site.brand.logo} alt={site.meta.title} class="h-8 w-auto dark:hidden" />
+                {site.brand.logoDark && (
+                  <img
+                    src={site.brand.logoDark}
+                    alt={site.meta.title}
+                    class="hidden h-8 w-auto dark:block"
+                  />
+                )}
+              </>
+            ) : (
+              site.meta.title
+            )
+          }
+        </a>
+      </div>
+
+      {/* Desktop nav */}
+      <div class="hidden items-center gap-2 md:flex">
+        {
+          localizedNav.map((link) => (
+            <a
+              href={link.href}
+              class={cn(buttonVariants({ variant: 'ghost' }), 'text-base font-normal')}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+        {
+          navbarSocials.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={social.linkTitle}
+              aria-label={social.linkTitle}
+              class={buttonVariants({ variant: 'ghost' })}
+            >
+              <SocialIcon name={social.name} className="size-5" />
+            </a>
+          ))
+        }
+        <Search client:idle />
+        <ThemeToggle />
+      </div>
+
+      {/* Mobile nav */}
+      <div class="flex items-center gap-2 md:hidden">
+        <Search client:idle />
+        <MobileMenu client:media="(max-width: 767px)" navLinks={localizedNav}>
+          <div class="flex items-center justify-center gap-6 pt-4">
+            {
+              navbarSocials.map((social) => (
+                <a
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={social.linkTitle}
+                  aria-label={social.linkTitle}
+                  class={buttonVariants({ variant: 'ghost' })}
+                >
+                  <SocialIcon name={social.name} className="size-5" />
+                </a>
+              ))
+            }
+            <ThemeToggle />
+          </div>
+        </MobileMenu>
+      </div>
+    </div>
+  </div>
+</header>

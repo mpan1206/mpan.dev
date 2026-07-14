@@ -1,0 +1,33 @@
+---
+import { ArrowLeftIcon } from 'lucide-react'
+const { className } = Astro.props
+---
+
+<button
+  id="back-button"
+  class:list={[
+    'group flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground',
+    className,
+  ]}
+  aria-label="返回"
+>
+  <ArrowLeftIcon className="size-4 transition-transform group-hover:-translate-x-1" />
+  <span>返回</span>
+</button>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const backBtn = document.getElementById('back-button')
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        // Simple heuristic: if we have history, go back
+        // Otherwise, navigate to home
+        if (window.history.length > 1 && document.referrer.includes(window.location.host)) {
+          window.history.back()
+        } else {
+          window.location.href = '/'
+        }
+      })
+    }
+  })
+</script>

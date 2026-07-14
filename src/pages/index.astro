@@ -1,0 +1,336 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Header from '@/components/Header.astro'
+import Main from '@/components/Main.astro'
+import Footer from '@/components/Footer.tsx'
+import { SocialIcon } from '@/components/SocialIcon'
+import config from '@/config'
+import {
+  SiReact,
+  SiVuedotjs,
+  SiAstro,
+  SiTailwindcss,
+  SiWebrtc,
+  SiNodedotjs,
+  SiGo,
+  SiPostgresql,
+  SiDocker,
+  SiNextdotjs,
+  SiVite,
+  SiHuawei,
+  SiElectron,
+  SiRedis,
+  SiAnthropic,
+  SiGoogle,
+  SiPinia,
+  SiShadcnui,
+  SiMysql,
+  SiJenkins,
+} from 'react-icons/si'
+
+const { social } = config
+---
+
+<Layout ogType="website">
+  <Header />
+  <Main class="max-w-3xl">
+    <article
+      class="slide-enter-content prose prose-zinc dark:prose-invert prose-headings:font-semibold prose-a:font-normal prose-a:text-foreground prose-a:no-underline prose-a:decoration-primary/20 prose-a:underline-offset-4 prose-a:transition-all prose-a:hover:text-primary prose-a:hover:underline prose-a:hover:decoration-primary/50 max-w-none text-base leading-relaxed text-foreground/80"
+    >
+      <h1 class="font-mono text-xl font-bold tracking-tight">Hey，我是 Miles Pan</h1>
+      <p class="mt-4 leading-relaxed text-muted-foreground">
+        一名普通的前端开发工程师，我在意代码的结构与性能，也在意界面的细节与质感。当然，如果需要的话我也可以顺手搞定后端和运维。
+      </p>
+
+      <p>我涉猎的技术栈有：</p>
+
+      <ul class="space-y-2">
+        <li class="leading-relaxed">
+          <strong>React 生态</strong>：深入
+          <a
+            href="https://react.dev/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiReact className="self-center text-[#61DAFB]" />
+            React
+          </a>{' '}
+          体系，熟练使用
+          <a
+            href="https://nextjs.org/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiNextdotjs className="self-center text-foreground" />
+            Next.js
+          </a>
+          、
+          <a href="https://umijs.org/" target="_blank" class="font-medium"> Umi </a>{' '}
+          及
+          <a href="https://zustand-demo.pmnd.rs/" target="_blank" class="font-medium"> Zustand </a>{
+            ' '
+          }
+          等进行复杂业务的架构与状态管理。
+        </li>
+        <li class="leading-relaxed">
+          <strong>Vue 生态</strong>：精通
+          <a
+            href="https://vuejs.org/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiVuedotjs className="self-center text-[#4FC08D]" />
+            Vue 2 / 3
+          </a>{' '}
+          及其完整技术栈，包括
+          <a href="https://router.vuejs.org/" target="_blank" class="font-medium"> Vue Router </a>
+          、
+          <a
+            href="https://pinia.vuejs.org/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiPinia className="self-center text-[#FFE15D]" />
+            Pinia
+          </a>{' '}
+          / Vuex，拥有丰富的后台管理与 C 端项目落地经验。
+        </li>
+        <li class="leading-relaxed">
+          <strong>现代 Web 基建</strong>：热衷于
+          <a
+            href="https://astro.build/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiAstro className="self-center text-[#FF5D01]" />
+            Astro
+          </a>{' '}
+          与
+          <a
+            href="https://vitejs.dev/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiVite className="self-center text-[#646CFF]" />
+            Vite
+          </a>{' '}
+          工具链，日常使用
+          <a
+            href="https://tailwindcss.com/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiTailwindcss className="self-center text-[#06B6D4]" />
+            Tailwind CSS
+          </a>{' '}
+          结合
+          <a
+            href="https://ui.shadcn.com/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiShadcnui className="self-center text-foreground" />
+            Shadcn UI
+          </a>{' '}
+          构建高品质组件库与界面。
+        </li>
+        <li class="leading-relaxed">
+          <strong>鸿蒙原生开发</strong>：在
+          <a
+            href="https://developer.huawei.com/consumer/cn/harmonyos/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiHuawei className="self-center text-[#FF0000]" />
+            HarmonyOS
+          </a>{' '}
+          原生应用开发上有着深厚积累，精通 ArkTS / ArkUI、声明式 UI 范式及 C++ NAPI 跨层互调。
+        </li>
+        <li class="leading-relaxed">
+          <strong>跨端与大前端</strong>：拥有多平台开发经验，从移动端的
+          <a href="https://uniapp.dcloud.net.cn/" target="_blank" class="font-medium"> Uni-App </a>
+          、桌面端的
+          <a
+            href="https://www.electronjs.org/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiElectron className="self-center text-[#47848F]" />
+            Electron
+          </a>
+          ，到企业级的<strong>微前端（micro-app）</strong>架构设计与对接。
+        </li>
+        <li class="leading-relaxed">
+          <strong>音视频与通信</strong>：主导过基于
+          <a
+            href="https://webrtc.org/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiWebrtc className="self-center text-foreground" />
+            WebRTC
+          </a>
+          、
+          <a href="https://mediasoup.org/" target="_blank" class="font-medium"> MediaSoup </a>{' '}
+          的复杂 P2P 通话及多人视频会议 SDK 封装。
+        </li>
+        <li class="leading-relaxed">
+          <strong>后端与数据库</strong>：熟练使用
+          <a
+            href="https://nodejs.org/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiNodedotjs className="self-center text-[#5FA04E]" />
+            Node.js
+          </a>{' '}
+          与
+          <a
+            href="https://go.dev/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiGo className="self-center text-[#00ADD8]" />
+            Go (Gin)
+          </a>{' '}
+          编写服务端代码，熟悉
+          <a
+            href="https://www.postgresql.org/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiPostgresql className="self-center text-[#4169E1]" />
+            PostgreSQL
+          </a>
+          、
+          <a
+            href="https://redis.io/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiRedis className="self-center text-[#DC382D]" />
+            Redis
+          </a>{' '}
+          与
+          <a
+            href="https://www.mysql.com/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiMysql className="self-center text-[#4479A1]" />
+            MySQL
+          </a>{' '}
+          的数据建模与开发。
+        </li>
+        <li class="leading-relaxed">
+          <strong>DevOps 与边缘计算</strong>：熟练使用
+          <a
+            href="https://www.docker.com/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiDocker className="self-center text-[#2496ED]" />
+            Docker
+          </a>{' '}
+          和
+          <a
+            href="https://www.jenkins.io/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiJenkins className="self-center text-[#D24939]" />
+            Jenkins
+          </a>{' '}
+          构建 CI/CD 自动化流水线。
+        </li>
+        <li class="leading-relaxed">
+          <strong>Agentic Coding 与工程化</strong>：积极拥抱由 <strong>AI Agent</strong>{' '}
+          驱动的全新编程范式，深度使用
+          <a
+            href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiAnthropic className="self-center text-[#D97757]" />
+            Claude Code
+          </a>
+          、
+          <a
+            href="https://antigravity.google/"
+            target="_blank"
+            class="inline-flex items-baseline gap-1 font-medium"
+          >
+            <SiGoogle className="self-center text-[#4285F4]" />
+            Antigravity
+          </a>{' '}
+          等智能体辅助编码工具；同时掌握 <strong>Prompt Engineering</strong>、
+          <strong>复杂上下文管理 (Context Management)</strong>，以及
+          <a href="https://modelcontextprotocol.io/" target="_blank" class="font-medium">
+            MCP (Model Context Protocol)
+          </a>{' '}
+          与 <strong>Skill / Plugin</strong>。
+        </li>
+      </ul>
+
+      <p>
+        借助 Vibe Coding 的理念与 AI
+        智能体的深度辅助，我从零到一搭建了这个个人网站。后续我会在这里：
+      </p>
+
+      <ul
+        class="mt-4 list-outside list-disc space-y-2 pl-5 text-muted-foreground marker:text-muted-foreground/50"
+      >
+        <li>
+          <strong class="font-medium text-foreground">沉淀技术思考</strong>：记录关于 Web
+          架构、设计美学以及 AI 工程化的实践心得。
+        </li>
+        <li>
+          <strong class="font-medium text-foreground">展示项目作品</strong
+          >：陈列我独立构建或参与维护的开源工具、全栈产品与实验性 Demo。
+        </li>
+        <li>
+          <strong class="font-medium text-foreground">试验前沿技术</strong>：作为验证最新 Web
+          框架、UI 交互与 Agentic 工作流的最佳试验田。
+        </li>
+      </ul>
+
+      <p class="mt-4 leading-relaxed text-muted-foreground">
+        你可以点击这里查看我的<a href="/projects/">完整项目列表</a>，或者在 <a href="/posts/"
+          >文章</a
+        > 中阅读我关于开发和设计的分享。如果您对我的项目感兴趣，非常欢迎您提交 Issue 或贡献代码，让我们一起参与开源建设！
+      </p>
+    </article>
+
+    <!-- Social Links Matrix -->
+    <div class="mt-16 sm:mt-24">
+      <p class="mb-4 font-medium text-foreground">在以下平台可以找到我</p>
+      <div class="not-prose mb-6 flex flex-wrap gap-4">
+        {
+          social
+            .filter((s) => s.placements.includes('hero'))
+            .map((s) => (
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                title={s.linkTitle}
+                aria-label={s.linkTitle}
+              >
+                <SocialIcon name={s.name} className="size-4" />
+                <span>{s.linkTitle}</span>
+              </a>
+            ))
+        }
+      </div>
+      {
+        config.site.meta.email && (
+          <p>
+            或者发送邮件至 <a href={`mailto:${config.site.meta.email}`}>{config.site.meta.email}</a>
+          </p>
+        )
+      }
+    </div>
+  </Main>
+  <Footer />
+</Layout>

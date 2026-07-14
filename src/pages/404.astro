@@ -1,0 +1,72 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Header from '@/components/Header.astro'
+import Main from '@/components/Main.astro'
+import Footer from '@/components/Footer.tsx'
+import { buttonVariants } from '@/components/ui/button'
+import { Home, ArrowLeft } from 'lucide-react'
+import { cn } from '@/lib/utils'
+---
+
+<Layout title="404 页面未找到" ogType="website">
+  <Header />
+
+  <Main class="flex flex-col items-center justify-center py-16 sm:py-24">
+    <div
+      class="slide-enter-content flex max-w-2xl flex-col items-center justify-center text-center"
+    >
+      <div class="relative">
+        <h1
+          class="bg-linear-to-b from-foreground to-foreground/50 bg-clip-text text-[8rem] leading-none font-extrabold tracking-tighter text-transparent drop-shadow-sm sm:text-[12rem]"
+        >
+          404
+        </h1>
+        <div
+          class="absolute -inset-x-20 top-1/2 -z-10 h-1/2 -translate-y-1/2 animate-pulse rounded-full bg-linear-to-b from-primary/20 to-transparent opacity-50 blur-3xl dark:opacity-20"
+        >
+        </div>
+      </div>
+
+      <p class="mb-10 text-xl font-medium text-muted-foreground sm:text-2xl">
+        糟糕！您访问的页面不存在
+      </p>
+
+      <div class="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+        <a
+          href="/"
+          class={cn(buttonVariants({ size: 'lg' }), 'h-12 gap-2 rounded-full px-8 text-base')}
+        >
+          <Home className="size-4" />
+          返回首页
+        </a>
+        <button
+          onclick="window.history.back()"
+          class={cn(
+            buttonVariants({ variant: 'outline', size: 'lg' }),
+            'h-12 gap-2 rounded-full px-8 text-base'
+          )}
+        >
+          <ArrowLeft className="size-4" />
+          返回上一页
+        </button>
+      </div>
+
+      <div class="mt-16 flex items-center justify-center gap-4 text-sm text-muted-foreground">
+        <span>您还可以去看看：</span>
+        <a
+          href="/posts/"
+          class="transition-colors hover:text-primary hover:underline hover:underline-offset-4"
+          >最新文章</a
+        >
+        <span class="opacity-50">|</span>
+        <a
+          href="/projects/"
+          class="transition-colors hover:text-primary hover:underline hover:underline-offset-4"
+          >开源项目</a
+        >
+      </div>
+    </div>
+  </Main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,126 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import { getAssetPath } from '@/utils/withBase'
+import config from '@/config'
+import '@/styles/global.css'
+
+export interface Props {
+  title?: string
+  description?: string
+  ogImage?: string
+  ogType?: 'website' | 'article'
+}
+const { site } = config
+
+const {
+  title,
+  description = site.meta.description,
+  ogImage = site.brand.ogImage,
+  ogType = 'website',
+} = Astro.props
+
+const displayTitle = title
+  ? title.includes(site.meta.title)
+    ? title
+    : `${title} | ${site.meta.title}`
+  : site.meta.title
+
+const canonicalURL = new URL(Astro.url.pathname, site.meta.url).href
+const socialImageURL = ogImage ? new URL(ogImage, site.meta.url).href : undefined
+---
+
+<!doctype html>
+<html dir={site.locale.dir} lang="zh-CN" class="overflow-y-scroll">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={getAssetPath(site.brand.favicon)} />
+    <link rel="icon" type="image/png" sizes="96x96" href={getAssetPath('favicon-96x96.png')} />
+    <link rel="icon" sizes="any" href={getAssetPath('favicon.ico')} />
+    <link rel="apple-touch-icon" href={getAssetPath('apple-touch-icon.png')} />
+    <link rel="manifest" href={getAssetPath('site.webmanifest')} />
+    <!-- Sensible default; theme.ts refines it at runtime to match the background colour -->
+    <meta name="theme-color" content={site.brand.themeColor} />
+
+    <title>{displayTitle}</title>
+    <meta name="title" content={displayTitle} />
+    <meta name="description" content={description} />
+    <meta name="author" content={site.meta.author} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href={getAssetPath('sitemap-index.xml')} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={site.meta.title}
+      href={new URL(getAssetPath('rss.xml'), site.meta.url)}
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.meta.title} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={displayTitle} />
+    <meta property="og:description" content={description} />
+    {socialImageURL && <meta property="og:image" content={socialImageURL} />}
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={displayTitle} />
+    <meta property="twitter:description" content={description} />
+    {socialImageURL && <meta property="twitter:image" content={socialImageURL} />}
+
+    <!-- Slot for additional head elements like JSON-LD or article tags -->
+    <slot name="head" />
+
+    <!--
+      Inline FOUC-prevention script: sets data-theme on <html> before
+      the browser paints. Runs synchronously, no defer/async.
+    -->
+    <script is:inline>
+      ;(function () {
+        const stored = localStorage.getItem('theme')
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const theme = stored ?? (prefersDark ? 'dark' : 'light')
+        const root = document.firstElementChild
+        root?.setAttribute('data-theme', theme)
+        root?.classList.toggle('dark', theme === 'dark')
+        // Expose value so theme.ts can skip re-detection.
+        window.__theme = { value: theme }
+      })()
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body
+    class="flex min-h-svh flex-col bg-background font-sans text-foreground antialiased selection:bg-primary selection:text-primary-foreground"
+  >
+    <slot />
+    <script>
+      import NProgress from 'nprogress'
+      import '@/scripts/theme'
+
+      // Keep the statically-rendered footer year current without a rebuild.
+      function updateFooterYear(): void {
+        const el = document.querySelector<HTMLElement>('[data-footer-year]')
+        if (!el) return
+        const start = Number(el.dataset.startYear)
+        if (!start) return
+        const now = new Date().getFullYear()
+        el.textContent = now > start ? `${start}-${now}` : `${start}`
+      }
+
+      // Trigger on initial page load
+      NProgress.start()
+
+      document.addEventListener('astro:before-preparation', () => {
+        NProgress.start()
+      })
+      document.addEventListener('astro:page-load', () => {
+        NProgress.done()
+        updateFooterYear()
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+interface Props {
+  headings: MarkdownHeading[]
+}
+
+const { headings } = Astro.props
+
+// Filter headings (usually depth 2 and 3 are enough for a sidebar)
+const filteredHeadings = headings.filter((heading) => heading.depth <= 2)
+---
+
+<nav
+  class="slide-enter hidden-scrollbar max-h-[calc(100vh-8rem)] overflow-y-auto"
+  style="--enter-stage: 3;"
+>
+  <h2 class="mb-4 text-base font-semibold tracking-tight">目录</h2>
+  {
+    filteredHeadings.length === 0 ? (
+      <p class="text-sm text-muted-foreground">暂无目录</p>
+    ) : (
+      <ul id="toc" class="flex flex-col gap-2.5 text-sm text-muted-foreground">
+        {filteredHeadings.map((heading) => (
+          <li
+            class={`line-clamp-2 transition-colors hover:text-foreground ${heading.depth === 3 ? 'ml-4 text-[13px]' : ''}`}
+          >
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</nav>
+
+<script>
+  let observer: IntersectionObserver | null = null
+
+  function setupTocObserver() {
+    // Disconnect any previous observer from a prior navigation
+    observer?.disconnect()
+    observer = null
+
+    const headings = document.querySelectorAll('.prose h2, .prose h3')
+    const tocLinks = document.querySelectorAll('#toc a')
+
+    if (headings.length > 0 && tocLinks.length > 0) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              tocLinks.forEach((link) => {
+                link.classList.remove('text-primary', 'font-medium')
+                link.classList.add('text-muted-foreground')
+              })
+              const activeLink = document.querySelector(`#toc a[href="#${entry.target.id}"]`)
+              if (activeLink) {
+                activeLink.classList.remove('text-muted-foreground')
+                activeLink.classList.add('text-primary', 'font-medium')
+              }
+            }
+          })
+        },
+        { rootMargin: '-100px 0px -80% 0px' }
+      )
+
+      headings.forEach((heading) => observer!.observe(heading))
+    }
+  }
+
+  document.addEventListener('astro:page-load', setupTocObserver)
+  document.addEventListener('astro:before-swap', () => {
+    observer?.disconnect()
+    observer = null
+  })
+</script>

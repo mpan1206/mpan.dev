@@ -1,0 +1,58 @@
+{
+  // ─── Editor ──────────────────────────────────────────────
+  // 保存时自动格式化
+  "editor.formatOnSave": true,
+
+  // 保存时执行 ESLint 自动修复
+  // explicit: 仅在明确保存时触发，不后台持续修改
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // 默认使用 Prettier 格式化
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // ─── Formatting ──────────────────────────────────────────
+  // 统一使用 LF 换行，与 .editorconfig / .gitattributes 保持一致
+  "files.eol": "\n",
+
+  // 文件末尾自动添加换行
+  "files.insertFinalNewline": true,
+
+  // 删除行尾无意义空格
+  "files.trimTrailingWhitespace": true,
+
+  // 统一使用 2 空格缩进
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+
+  // ─── ESLint (Flat Config) ────────────────────────────────
+  // 使用 eslint.config.js 配置方式
+  "eslint.useFlatConfig": true,
+
+  // ESLint 检查的文件类型
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "astro"],
+
+  // ─── TypeScript ──────────────────────────────────────────
+  // 使用项目安装的 TypeScript，而不是 VS Code 内置版本
+  // 保证与 package.json 中的 TypeScript 版本一致
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+
+  // 允许 VS Code 使用 workspace TypeScript
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+
+  // 自动 import 时优先生成非相对路径
+  // 需要配合 tsconfig paths 配置
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+
+  // ─── Tailwind CSS v4 ─────────────────────────────────────
+  // Tailwind v4 使用 Vite plugin，不需要 tailwind.config.js
+  "tailwindCSS.experimental.configFile": null,
+
+  // 自定义函数中的 Tailwind class 识别
+  // 支持 cva() / cn() 等常见工具函数
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
+}

@@ -72,8 +72,8 @@ const structuredData = {
     <div class="flex flex-col lg:flex-row lg:justify-center lg:gap-12 xl:gap-20">
       <div class="hidden w-64 shrink-0 lg:block"></div>
 
-      <article class="slide-enter-content w-full max-w-3xl min-w-0">
-        <BackButton className="mb-8" />
+      <article class="slide-enter-content w-full max-w-3xl min-w-0" data-pagefind-body>
+        <div data-pagefind-ignore><BackButton className="mb-8" /></div>
         <header class="mb-12 text-left">
           <h1 class="mb-6 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {entry.data.title}
@@ -105,6 +105,7 @@ const structuredData = {
         </div>
 
         <div
+          data-pagefind-ignore
           class="mt-8 flex flex-col justify-between gap-6 border-t border-border/50 pt-8 sm:flex-row sm:items-center"
         >
           <div class="flex-1">
@@ -150,6 +151,7 @@ const structuredData = {
         {
           (prevEntry || nextEntry) && (
             <nav
+              data-pagefind-ignore
               class="mt-12 flex flex-col items-center justify-between gap-6 border-t border-border/50 pt-8 sm:flex-row"
               aria-label="Pagination"
             >

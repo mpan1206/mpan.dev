@@ -3,8 +3,9 @@ import { ArrowLeftIcon } from 'lucide-react'
 const { className } = Astro.props
 ---
 
-<button
+<a
   id="back-button"
+  href="/"
   class:list={[
     'group flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground',
     className,
@@ -13,21 +14,30 @@ const { className } = Astro.props
 >
   <ArrowLeftIcon className="size-4 transition-transform group-hover:-translate-x-1" />
   <span>返回</span>
-</button>
+</a>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
-    const backBtn = document.getElementById('back-button')
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
-        // Simple heuristic: if we have history, go back
-        // Otherwise, navigate to home
-        if (window.history.length > 1 && document.referrer.includes(window.location.host)) {
+  function setupBackButton() {
+    const backButton = document.querySelector<HTMLAnchorElement>('#back-button')
+    if (backButton && !backButton.dataset.hasListener) {
+      backButton.dataset.hasListener = 'true'
+
+      const backUrl = sessionStorage.getItem('backUrl')
+      if (backUrl) {
+        backButton.href = backUrl
+      }
+
+      backButton.addEventListener('click', (e) => {
+        // Go back in history if we came from a page within the site to preserve scroll position
+        if (window.history.length > 1 && sessionStorage.getItem('backUrl')) {
+          e.preventDefault()
           window.history.back()
-        } else {
-          window.location.href = '/'
         }
       })
     }
-  })
+  }
+
+  // Run immediately and on view transition page loads
+  setupBackButton()
+  document.addEventListener('astro:page-load', setupBackButton)
 </script>

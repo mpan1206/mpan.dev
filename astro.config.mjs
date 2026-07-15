@@ -6,7 +6,6 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import astroExpressiveCode from 'astro-expressive-code'
 import { defineConfig } from 'astro/config'
-import ogGenerator from './src/integrations/og-generator.ts'
 import config from './src/config.ts'
 import { getLastmod } from './src/utils/sitemap.ts'
 
@@ -28,7 +27,6 @@ export default defineConfig({
         return item
       },
     }),
-    ogGenerator(),
   ],
   vite: {
     plugins: [tailwindcss()],

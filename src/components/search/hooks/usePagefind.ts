@@ -34,8 +34,11 @@ export function usePagefind(isOpen: boolean) {
       const loadPagefind = async () => {
         setLoading(true)
         try {
-          // @ts-expect-error - pagefind.js is generated at build time
-          const pf = await import(/* @vite-ignore */ '/pagefind/pagefind.js')
+          if (import.meta.env.DEV) {
+            throw new Error('Search is disabled in development mode.')
+          }
+          const pagefindPath = '/pagefind/pagefind.js'
+          const pf = await import(/* @vite-ignore */ pagefindPath)
           await pf.options({})
           pf.init()
           setPagefind(pf)

@@ -1,4 +1,3 @@
-import React from 'react'
 import { FileTextIcon } from 'lucide-react'
 import type { ResolvedPagefindHit } from './hooks/usePagefind'
 

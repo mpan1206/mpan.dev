@@ -59,10 +59,6 @@ export function Search() {
     }
   }
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setQuery(suggestion)
-  }
-
   const placeholder = '搜索文章...'
 
   return (
@@ -88,7 +84,7 @@ export function Search() {
         ) : loading ? (
           <SearchLoading />
         ) : (
-          <SearchEmpty query={query} onSuggestionClick={handleSuggestionClick} />
+          <SearchEmpty query={query} />
         )}
         <SearchFooter isMobile={isMobile} />
       </SearchDialog>

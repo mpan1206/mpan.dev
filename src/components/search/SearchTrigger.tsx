@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { SearchIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 
 interface SearchTriggerProps {
@@ -28,10 +27,7 @@ export function SearchTrigger({ onClick }: SearchTriggerProps) {
       onClick={onClick}
       aria-label="搜索"
       title={isMac ? '搜索 (⌘K)' : '搜索 (Ctrl+K)'}
-      className={cn(
-        buttonVariants({ variant: 'ghost', size: 'icon' }),
-        'text-muted-foreground hover:text-foreground'
-      )}
+      className={buttonVariants({ variant: 'ghost', size: 'icon' })}
     >
       <SearchIcon className="size-5 shrink-0" />
     </button>

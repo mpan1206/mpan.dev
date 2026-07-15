@@ -1,0 +1,39 @@
+@layer components {
+  .navbar-border {
+    border-color: color-mix(in oklch, var(--border) 85%, transparent);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .navbar-border {
+      border-color: transparent;
+
+      animation: navbar-border-reveal 1ms linear both;
+
+      animation-timeline: scroll(root);
+
+      animation-range: 0 60px;
+    }
+  }
+
+  #nprogress {
+    pointer-events: none;
+  }
+
+  #nprogress .bar {
+    background: var(--foreground);
+
+    opacity: 0.75;
+
+    position: fixed;
+
+    z-index: 1031;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 2px;
+  }
+}

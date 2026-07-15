@@ -1,0 +1,63 @@
+/* =========================
+   Theme View Transition
+   ========================= */
+
+::view-transition-group(root),
+::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  pointer-events: none;
+}
+
+/* Light → Dark */
+.theme-transition-dark ::view-transition-old(root) {
+  z-index: 9999;
+}
+
+.theme-transition-dark ::view-transition-new(root) {
+  z-index: 1;
+}
+
+/* Dark → Light */
+.theme-transition-light ::view-transition-new(root) {
+  z-index: 9999;
+}
+
+.theme-transition-light ::view-transition-old(root) {
+  z-index: 1;
+}
+
+/* =========================
+   Navbar animation
+   ========================= */
+
+@keyframes navbar-border-reveal {
+  from {
+    border-color: transparent;
+  }
+
+  to {
+    border-color: color-mix(in oklch, var(--border) 85%, transparent);
+  }
+}
+
+/* =========================
+   Content enter animation
+   ========================= */
+
+@keyframes slide-enter {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

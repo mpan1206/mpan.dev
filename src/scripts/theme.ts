@@ -1,108 +1,220 @@
 /**
- * Theme persistence script.
- * Re-applies the stored theme after Astro view-transition swaps
- * so the dark class stays in sync with localStorage.
+ * Theme persistence + Astro View Transition controller.
+ *
+ * Animation:
+ *
+ * Light -> Dark
+ *   old(light) circle shrink
+ *
+ * Dark -> Light
+ *   new(light) circle expand
  */
 
 const THEME_KEY = 'theme'
+
 const LIGHT = 'light'
 const DARK = 'dark'
 
+let transitioning = false
+
 function getPreferredTheme(): string {
   const stored = localStorage.getItem(THEME_KEY)
-  if (stored) return stored
+
+  if (stored) {
+    return stored
+  }
+
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT
 }
 
-// Reuse the value already set by the inline FOUC-prevention script if available.
-let themeValue: string =
-  (window as unknown as { __theme?: { value: string } }).__theme?.value ?? getPreferredTheme()
+let themeValue =
+  (
+    window as unknown as {
+      __theme?: {
+        value: string
+      }
+    }
+  ).__theme?.value ?? getPreferredTheme()
+
+function updateThemeColor(): void {
+  requestAnimationFrame(() => {
+    const bg = getComputedStyle(document.body).backgroundColor
+
+    document.querySelector("meta[name='theme-color']")?.setAttribute('content', bg)
+  })
+}
+
+function applyTheme(): void {
+  const root = document.documentElement
+
+  root.classList.toggle('dark', themeValue === DARK)
+
+  root.dataset.theme = themeValue
+
+  updateThemeColor()
+}
 
 function persist(): void {
   localStorage.setItem(THEME_KEY, themeValue)
-  reflect()
 }
 
-function reflect(): void {
-  const root = document.firstElementChild
-  root?.setAttribute('data-theme', themeValue)
-  root?.classList.toggle('dark', themeValue === DARK)
+function getButtonCenter(button: Element) {
+  const rect = button.getBoundingClientRect()
 
-  // Fill <meta name="theme-color"> with the computed background colour so
-  // Android's browser chrome matches the page background.
-  const bg = window.getComputedStyle(document.body).backgroundColor
-  document.querySelector("meta[name='theme-color']")?.setAttribute('content', bg)
+  return {
+    x: rect.left + rect.width / 2,
+
+    y: rect.top + rect.height / 2,
+  }
 }
 
-// Toggle the theme, with a circular view-transition reveal from the click point
-// when the browser supports it and the user hasn't requested reduced motion.
-function toggleTheme(event: MouseEvent): void {
-  const nextIsDark = themeValue !== DARK
-  themeValue = nextIsDark ? DARK : LIGHT
+function cleanupTransitionClass() {
+  document.documentElement.classList.remove('theme-transition-dark', 'theme-transition-light')
+}
 
-  if (
-    !document.startViewTransition ||
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  ) {
-    persist()
+function toggleTheme(button: Element): void {
+  if (transitioning) {
     return
   }
 
-  const x = event.clientX
-  const y = event.clientY
+  transitioning = true
+
+  const nextIsDark = themeValue !== DARK
+
+  themeValue = nextIsDark ? DARK : LIGHT
+
+  const transitionClass = nextIsDark ? 'theme-transition-dark' : 'theme-transition-light'
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  if (!document.startViewTransition || reducedMotion) {
+    persist()
+
+    applyTheme()
+
+    cleanupTransitionClass()
+
+    transitioning = false
+
+    return
+  }
+
+  const { x, y } = getButtonCenter(button)
+
   const endRadius = Math.hypot(
     Math.max(x, window.innerWidth - x),
+
     Math.max(y, window.innerHeight - y)
   )
 
-  const transition = document.startViewTransition(() => persist())
+  /*
+   * Important:
+   * Add class BEFORE snapshot.
+   */
+  document.documentElement.classList.add(transitionClass)
+
+  const transition = document.startViewTransition(() => {
+    persist()
+
+    applyTheme()
+  })
 
   transition.ready.then(() => {
-    const clipPath = [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`]
+    const expand = [`circle(20px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`]
+
+    const shrink = [`circle(${endRadius}px at ${x}px ${y}px)`, `circle(20px at ${x}px ${y}px)`]
 
     document.documentElement.animate(
-      { clipPath: nextIsDark ? [...clipPath].reverse() : clipPath },
       {
-        duration: 400,
-        easing: 'ease-out',
+        clipPath: nextIsDark ? shrink : expand,
+      },
+
+      {
+        duration: 500,
+
+        easing: 'cubic-bezier(0.4,0,0.2,1)',
+
         fill: 'forwards',
+
         pseudoElement: nextIsDark ? '::view-transition-old(root)' : '::view-transition-new(root)',
       }
     )
   })
+
+  transition.finished
+    .then(() => {
+      cleanupTransitionClass()
+
+      transitioning = false
+    })
+
+    .catch(() => {
+      cleanupTransitionClass()
+
+      transitioning = false
+    })
 }
 
-function setup(): void {
-  reflect()
+function setup() {
+  applyTheme()
 }
 
 setup()
 
-// Re-run after View Transitions navigation.
+/*
+ * Astro View Transition
+ */
+
 document.addEventListener('astro:after-swap', setup)
 
-// The header renders a theme button for desktop and one for mobile (dynamically).
-// Use event delegation to handle clicks on dynamically mounted toggles.
+/*
+ * Theme button delegation
+ */
+
 document.addEventListener('click', (event) => {
-  const btn = (event.target as Element).closest('[data-theme-toggle]')
-  if (btn) {
-    toggleTheme(event as MouseEvent)
+  const target = event.target
+
+  if (!(target instanceof Element)) {
+    return
   }
+
+  const button = target.closest('[data-theme-toggle]')
+
+  if (!button) {
+    return
+  }
+
+  toggleTheme(button)
 })
 
-// Carry the theme-color value across View Transitions to prevent the
-// Android navigation bar from flashing during page transitions.
+/*
+ * Preserve Android browser theme color
+ */
+
 document.addEventListener('astro:before-swap', (event) => {
   const color = document.querySelector("meta[name='theme-color']")?.getAttribute('content')
-  if (color) {
-    ;(event as { newDocument: Document }).newDocument
-      .querySelector("meta[name='theme-color']")
-      ?.setAttribute('content', color)
+
+  if (!color) {
+    return
   }
+
+  const newDocument = (
+    event as {
+      newDocument: Document
+    }
+  ).newDocument
+
+  newDocument.querySelector("meta[name='theme-color']")?.setAttribute('content', color)
 })
 
-// Sync with OS-level dark/light preference changes.
+/*
+ * Sync OS theme changes
+ */
+
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({ matches }) => {
   themeValue = matches ? DARK : LIGHT
+
   persist()
+
+  applyTheme()
 })

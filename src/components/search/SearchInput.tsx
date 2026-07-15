@@ -44,7 +44,7 @@ export function SearchInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+          className="w-full flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
           aria-label="搜索"
         />
         {value && (

@@ -1,10 +1,10 @@
 import { useRef, useEffect } from 'react'
 import { SearchGroup } from './SearchGroup'
 import { SearchHit } from './SearchHit'
-import type { OramaHit } from './hooks/useOrama'
+import type { ResolvedPagefindHit } from './hooks/usePagefind'
 
 interface SearchResultsProps {
-  results: OramaHit[]
+  results: ResolvedPagefindHit[]
   activeIndex: number
   setActiveIndex: (index: number) => void
   onClickHit: () => void
@@ -30,11 +30,11 @@ export function SearchResults({
   }, [activeIndex])
 
   // Group results by url path
-  const grouped: { [key: string]: { hits: OramaHit[]; startIndex: number } } = {}
+  const grouped: { [key: string]: { hits: ResolvedPagefindHit[]; startIndex: number } } = {}
   let indexCounter = 0
 
   results.forEach((hit) => {
-    const url = hit.document.url
+    const url = hit.url
     const groupName = url.startsWith('/posts')
       ? '文章'
       : url.startsWith('/projects')
@@ -49,7 +49,10 @@ export function SearchResults({
   })
 
   return (
-    <div ref={containerRef} className="max-h-[400px] overflow-y-auto px-4 py-2 max-sm:max-h-none max-sm:min-h-0 max-sm:flex-1">
+    <div
+      ref={containerRef}
+      className="max-h-[400px] overflow-y-auto px-4 py-2 max-sm:max-h-none max-sm:min-h-0 max-sm:flex-1"
+    >
       {Object.entries(grouped).map(([groupName, groupData]) => (
         <SearchGroup key={groupName} title={groupName}>
           {groupData.hits.map((hit, localIdx) => {

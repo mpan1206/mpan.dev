@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useOrama } from './hooks/useOrama'
+import { usePagefind } from './hooks/usePagefind'
 import { useKeyboard } from './hooks/useKeyboard'
 import { useMobile } from './hooks/useMobile'
 import { SearchTrigger } from './SearchTrigger'
@@ -10,13 +10,12 @@ import { SearchLoading } from './SearchLoading'
 import { SearchEmpty } from './SearchEmpty'
 import { SearchFooter } from './SearchFooter'
 
-
-
 export function Search() {
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = useMobile()
 
-  const { query, setQuery, results, loading, activeIndex, setActiveIndex, clear } = useOrama(isOpen)
+  const { query, setQuery, results, loading, error, activeIndex, setActiveIndex, clear } =
+    usePagefind(isOpen)
 
   const onOpen = () => setIsOpen(true)
   const onClose = () => setIsOpen(false)
@@ -84,7 +83,7 @@ export function Search() {
         ) : loading ? (
           <SearchLoading />
         ) : (
-          <SearchEmpty query={query} />
+          <SearchEmpty query={query} error={error} />
         )}
         <SearchFooter isMobile={isMobile} />
       </SearchDialog>

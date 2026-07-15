@@ -1,20 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-export interface PagefindDocument {
-  url: string
-  meta: {
-    title?: string
-    image?: string
-  }
-  excerpt: string
-  content?: string
-}
-
-export interface ResolvedPagefindHit {
-  id: string
-  url: string
-  document: PagefindDocument
-}
+import type { ResolvedPagefindHit } from '@/types'
 
 export function usePagefind(isOpen: boolean) {
   const [query, setQuery] = useState('')

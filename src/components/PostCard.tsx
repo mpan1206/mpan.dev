@@ -1,14 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { CalendarDays } from 'lucide-react'
-
-export interface PostCardProps {
-  title: string
-  description: string
-  date: Date
-  href: string
-  tags?: string[]
-  readingTime?: string
-}
+import type { PostCardProps } from '@/types'
 
 const PostCard: React.FC<PostCardProps> = ({
   title,

@@ -1,6 +1,5 @@
 ---
 import { render } from 'astro:content'
-import type { CollectionEntry } from 'astro:content'
 import Layout from '@/layouts/Layout.astro'
 import Header from '@/components/Header.astro'
 import Main from '@/components/Main.astro'
@@ -20,12 +19,9 @@ import { getReadingTime } from '@/utils/readingTime'
 import { getPostUrl } from '@/utils/getPostPaths'
 import config from '@/config'
 import { generateShareUrl } from '@/utils/share-url'
+import type { PostLayoutProps } from '@/types'
 
-export interface Props {
-  entry: CollectionEntry<'posts'>
-  prevEntry: CollectionEntry<'posts'> | null
-  nextEntry: CollectionEntry<'posts'> | null
-}
+export interface Props extends PostLayoutProps {}
 
 const { entry, prevEntry, nextEntry } = Astro.props
 const { Content, headings } = await render(entry)

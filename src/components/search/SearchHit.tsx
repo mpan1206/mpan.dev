@@ -1,5 +1,5 @@
 import { FileTextIcon } from 'lucide-react'
-import type { ResolvedPagefindHit } from './hooks/usePagefind'
+import type { ResolvedPagefindHit } from '@/types'
 
 interface SearchHitProps {
   hit: ResolvedPagefindHit

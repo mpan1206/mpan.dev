@@ -2,14 +2,11 @@
 import { ClientRouter } from 'astro:transitions'
 import { getAssetPath } from '@/utils/withBase'
 import config from '@/config'
+import type { LayoutProps } from '@/types'
 import '@/styles/global.css'
 
-export interface Props {
-  title?: string
-  description?: string
-  ogImage?: string
-  ogType?: 'website' | 'article'
-}
+export interface Props extends LayoutProps {}
+
 const { site } = config
 
 const {

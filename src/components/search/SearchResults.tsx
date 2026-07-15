@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { SearchGroup } from './SearchGroup'
 import { SearchHit } from './SearchHit'
-import type { ResolvedPagefindHit } from './hooks/usePagefind'
+import type { ResolvedPagefindHit } from '@/types'
 
 interface SearchResultsProps {
   results: ResolvedPagefindHit[]

@@ -1,4 +1,4 @@
-import type { ImageMetadata } from 'astro'
+import type { ProjectCardProps } from '@/types'
 import { Scale, Activity } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -24,18 +24,6 @@ const languageColors: Record<string, string> = {
   Vue: '#41b883',
   Svelte: '#ff3e00',
   Astro: '#ff5a03',
-}
-
-export interface ProjectCardProps {
-  title: string
-  description: string
-  date: Date
-  tags?: string[]
-  image?: string | ImageMetadata
-  githubUrl?: string
-  license?: string
-  status?: string
-  language?: string
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({

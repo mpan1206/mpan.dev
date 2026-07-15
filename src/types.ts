@@ -1,3 +1,7 @@
+import type { CollectionEntry } from 'astro:content'
+import type { ImageMetadata, MarkdownHeading } from 'astro'
+import type { ReactNode } from 'react'
+
 // ============================================================================
 // Platform / Icon names
 // ============================================================================
@@ -86,4 +90,81 @@ export interface MpanConfig {
 /** Type-safe config helper. */
 export function defineConfig(config: MpanConfig): MpanConfig {
   return config
+}
+
+// ============================================================================
+// Layout / Component Props
+// ============================================================================
+
+export interface LayoutProps {
+  title?: string
+  description?: string
+  ogImage?: string
+  ogType?: 'website' | 'article'
+}
+
+export interface PostLayoutProps {
+  entry: CollectionEntry<'posts'>
+  prevEntry: CollectionEntry<'posts'> | null
+  nextEntry: CollectionEntry<'posts'> | null
+}
+
+export interface PostCardProps {
+  title: string
+  description: string
+  date: Date
+  href: string
+  tags?: string[]
+  readingTime?: string
+}
+
+export interface ProjectCardProps {
+  title: string
+  description: string
+  date: Date
+  tags?: string[]
+  image?: string | ImageMetadata
+  githubUrl?: string
+  license?: string
+  status?: string
+  language?: string
+}
+
+export interface SocialIconProps {
+  name: PlatformName
+  className?: string
+}
+
+export interface MobileMenuProps {
+  navLinks: NavLink[]
+  children?: ReactNode
+}
+
+export type CalloutType = 'info' | 'warning' | 'danger' | 'tip' | 'success'
+
+export interface CalloutProps {
+  type?: CalloutType
+  title?: string
+  children: ReactNode
+  className?: string
+}
+
+export interface TableOfContentsProps {
+  headings: MarkdownHeading[]
+}
+
+export interface PagefindDocument {
+  url: string
+  meta: {
+    title?: string
+    image?: string
+  }
+  excerpt: string
+  content?: string
+}
+
+export interface ResolvedPagefindHit {
+  id: string
+  url: string
+  document: PagefindDocument
 }

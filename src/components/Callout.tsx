@@ -6,15 +6,7 @@ import {
   CheckCircle2,
   type LucideIcon,
 } from 'lucide-react'
-
-export type CalloutType = 'info' | 'warning' | 'danger' | 'tip' | 'success'
-
-export interface CalloutProps {
-  type?: CalloutType
-  title?: string
-  children: React.ReactNode
-  className?: string
-}
+import type { CalloutType, CalloutProps } from '@/types'
 
 const iconMap: Record<CalloutType, LucideIcon> = {
   info: Info,

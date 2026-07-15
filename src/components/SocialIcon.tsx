@@ -10,12 +10,7 @@ import {
   SiDiscord,
 } from 'react-icons/si'
 import { FaQq } from 'react-icons/fa'
-import type { PlatformName } from '@/types'
-
-export interface SocialIconProps {
-  name: PlatformName
-  className?: string
-}
+import type { SocialIconProps } from '@/types'
 
 export const SocialIcon: React.FC<SocialIconProps> = ({ name, className }) => {
   switch (name) {

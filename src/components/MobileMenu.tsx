@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import type { NavLink } from '@/types'
-
-export interface MobileMenuProps {
-  navLinks: NavLink[]
-  children?: React.ReactNode
-}
+import type { MobileMenuProps } from '@/types'
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, children }) => {
   const [open, setOpen] = useState(false)

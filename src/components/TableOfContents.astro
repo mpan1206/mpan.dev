@@ -1,9 +1,7 @@
 ---
-import type { MarkdownHeading } from 'astro'
+import type { TableOfContentsProps } from '@/types'
 
-interface Props {
-  headings: MarkdownHeading[]
-}
+interface Props extends TableOfContentsProps {}
 
 const { headings } = Astro.props
 

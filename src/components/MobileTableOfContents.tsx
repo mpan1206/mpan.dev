@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import type { MarkdownHeading } from 'astro'
+import type { TableOfContentsProps } from '@/types'
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { ListIcon } from 'lucide-react'
 
-interface Props {
-  headings: MarkdownHeading[]
-}
+type Props = TableOfContentsProps
 
 export function MobileTableOfContents({ headings }: Props) {
   const [isOpen, setIsOpen] = useState(false)

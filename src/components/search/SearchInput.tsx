@@ -31,8 +31,8 @@ export function SearchInput({
   }, [])
 
   return (
-    <div className="search-header">
-      <div className="search-input-wrapper">
+    <div className="flex items-center gap-2 border-b border-border px-4 py-3 max-sm:pt-[calc(0.75rem+env(safe-area-inset-top,0px))]">
+      <div className="flex h-10 flex-1 items-center gap-2 rounded-md border border-border bg-muted px-3 focus-within:border-foreground focus-within:bg-background max-sm:h-11">
         {loading ? (
           <Loader2Icon className="size-4 shrink-0 animate-spin text-muted-foreground" />
         ) : (
@@ -44,7 +44,7 @@ export function SearchInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="search-input"
+          className="flex-1 w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
           aria-label="搜索"
         />
         {value && (

@@ -10,7 +10,7 @@ import { SearchLoading } from './SearchLoading'
 import { SearchEmpty } from './SearchEmpty'
 import { SearchFooter } from './SearchFooter'
 
-import './styles/docsearch.css'
+
 
 export function Search() {
   const [isOpen, setIsOpen] = useState(false)

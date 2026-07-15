@@ -49,7 +49,7 @@ export function SearchResults({
   })
 
   return (
-    <div ref={containerRef} className="search-results-container">
+    <div ref={containerRef} className="max-h-[400px] overflow-y-auto px-4 py-2 max-sm:max-h-none max-sm:min-h-0 max-sm:flex-1">
       {Object.entries(grouped).map(([groupName, groupData]) => (
         <SearchGroup key={groupName} title={groupName}>
           {groupData.hits.map((hit, localIdx) => {

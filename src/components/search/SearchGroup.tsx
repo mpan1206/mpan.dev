@@ -7,11 +7,11 @@ interface SearchGroupProps {
 
 export function SearchGroup({ title, children }: SearchGroupProps) {
   return (
-    <div className="search-group" role="group">
-      <div className="search-group-title" aria-label={title}>
+    <div role="group">
+      <div className="mb-1 mt-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground" aria-label={title}>
         {title}
       </div>
-      <div className="search-group-items">{children}</div>
+      <div>{children}</div>
     </div>
   )
 }

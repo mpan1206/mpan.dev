@@ -1,3 +1,4 @@
+import type { ImageMetadata } from 'astro'
 import { Scale, Activity } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -30,7 +31,7 @@ export interface ProjectCardProps {
   description: string
   date: Date
   tags?: string[]
-  image?: string
+  image?: string | ImageMetadata
   githubUrl?: string
   license?: string
   status?: string
@@ -50,9 +51,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }: ProjectCardProps) => {
   const imageWrapperClass =
     'relative block aspect-[2/1] w-full overflow-hidden border-b border-border/30 bg-muted'
-  const image_ = image ? (
+  const imageUrl = image ? (typeof image === 'string' ? image : image.src) : undefined
+  const image_ = imageUrl ? (
     <img
-      src={image}
+      src={imageUrl}
       alt={title}
       className="h-full w-full object-cover object-center"
       loading="lazy"

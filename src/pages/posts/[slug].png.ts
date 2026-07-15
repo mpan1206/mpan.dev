@@ -6,8 +6,6 @@ import { PostOGTemplate } from '@/lib/og/templates'
 import { renderOG } from '@/lib/og/renderer'
 import { getCachedOgImage, setCachedOgImage } from '@/lib/og/cache'
 
-export const prerender = true
-
 export async function getStaticPaths() {
   const posts = await getCollection('posts')
   return posts.map((post) => ({

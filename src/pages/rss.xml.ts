@@ -3,8 +3,6 @@ import { getCollection } from 'astro:content'
 import { getPostUrl } from '@/utils/getPostPaths'
 import config from '@/config'
 
-export const prerender = true
-
 export async function GET() {
   const posts = await getCollection('posts')
   const sortedPosts = posts.sort(

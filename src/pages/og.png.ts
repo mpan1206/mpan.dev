@@ -5,8 +5,6 @@ import { DefaultOGTemplate } from '@/lib/og/templates'
 import { renderOG } from '@/lib/og/renderer'
 import { getCachedOgImage, setCachedOgImage } from '@/lib/og/cache'
 
-export const prerender = true
-
 export const GET: APIRoute = async () => {
   const title = config.site.meta.title
   const description = config.site.meta.description

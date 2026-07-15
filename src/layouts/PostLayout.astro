@@ -17,6 +17,7 @@ import { SocialIcon } from '@/components/SocialIcon'
 import Callout from '@/components/Callout'
 import Mermaid from '@/components/Mermaid.astro'
 import { getReadingTime } from '@/utils/readingTime'
+import { getPostUrl } from '@/utils/getPostPaths'
 import config from '@/config'
 import { generateShareUrl } from '@/utils/share-url'
 
@@ -32,10 +33,9 @@ const readingTime = getReadingTime(entry.body ?? '')
 
 const { site, share } = config
 
-const slug = entry.id
-const postUrl = `/posts/${slug}/`
-const prevUrl = prevEntry ? `/posts/${prevEntry.id}/` : null
-const nextUrl = nextEntry ? `/posts/${nextEntry.id}/` : null
+const postUrl = getPostUrl(entry.id)
+const prevUrl = prevEntry ? getPostUrl(prevEntry.id) : null
+const nextUrl = nextEntry ? getPostUrl(nextEntry.id) : null
 const ogImage = entry.data.image
   ? new URL(entry.data.image, Astro.url).href
   : new URL(postUrl.replace(/\/$/, '.png'), Astro.url).href

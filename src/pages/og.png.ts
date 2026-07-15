@@ -8,8 +8,8 @@ import { getCachedOgImage, setCachedOgImage } from '@/lib/og/cache'
 export const prerender = true
 
 export const GET: APIRoute = async () => {
-  const title = config.site.meta.title || 'MPan'
-  const description = config.site.meta.description || '一名普通的前端开发工程师'
+  const title = config.site.meta.title
+  const description = config.site.meta.description
   const theme = await getDefaultTheme()
 
   // We hash title, description, and logo to check for modifications

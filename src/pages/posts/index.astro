@@ -4,6 +4,7 @@ import Header from '@/components/Header.astro'
 import Main from '@/components/Main.astro'
 import Footer from '@/components/Footer.tsx'
 import { getCollection } from 'astro:content'
+import { getPostUrl } from '@/utils/getPostPaths'
 import PostCard from '@/components/PostCard.tsx'
 import { getReadingTime } from '@/utils/readingTime'
 
@@ -73,7 +74,7 @@ const years = Object.keys(postsByYearAndMonth)
                         title={post.data.title}
                         description={post.data.description}
                         date={post.data.publishDate}
-                        href={`/posts/${post.id}/`}
+                        href={getPostUrl(post.id)}
                         tags={post.data.tags}
                         readingTime={getReadingTime(post.body ?? '')}
                       />

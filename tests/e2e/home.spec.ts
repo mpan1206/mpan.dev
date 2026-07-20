@@ -10,7 +10,7 @@ test.describe('Home page', () => {
   })
 
   test('has a header with navigation links', async ({ page }) => {
-    const header = page.locator('header')
+    const header = page.getByRole('banner')
     await expect(header).toBeVisible()
 
     const postsLink = header.getByRole('link', { name: '文章' })

@@ -15,24 +15,24 @@
     }
   }
 
+  /* NProgress Customization */
   #nprogress {
     pointer-events: none;
   }
 
   #nprogress .bar {
-    background: var(--foreground);
-
-    opacity: 0.75;
-
-    position: fixed;
-
-    z-index: 1031;
-
+    background: var(--primary) !important;
+    position: fixed !important;
+    z-index: 99999 !important;
     top: 0;
-
     left: 0;
+    height: 2px !important;
+  }
 
-    height: 2px;
+  #nprogress .peg {
+    box-shadow:
+      0 0 10px var(--primary),
+      0 0 5px var(--primary) !important;
   }
 
   /* Rehype Mermaid SVG responsiveness */

@@ -5,6 +5,7 @@ import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import astroExpressiveCode from 'astro-expressive-code'
+import { unified } from '@astrojs/markdown-remark'
 import { defineConfig } from 'astro/config'
 import rehypeMermaid from 'rehype-mermaid'
 import config from './src/config.ts'
@@ -17,16 +18,18 @@ export default defineConfig({
     syntaxHighlight: {
       excludeLangs: ['mermaid'],
     },
-    rehypePlugins: [
-      [
-        rehypeMermaid,
-        {
-          mermaidConfig: {
-            theme: 'neutral',
+    processor: unified({
+      rehypePlugins: [
+        [
+          rehypeMermaid,
+          {
+            mermaidConfig: {
+              theme: 'neutral',
+            },
           },
-        },
+        ],
       ],
-    ],
+    }),
   },
   integrations: [
     react(),

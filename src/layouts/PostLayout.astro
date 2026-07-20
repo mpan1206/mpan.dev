@@ -101,21 +101,21 @@ const structuredData = {
 
         <div
           data-pagefind-ignore
-          class="mt-8 flex flex-col justify-between gap-6 border-t border-border/50 pt-8 sm:flex-row sm:items-center"
+          class="mt-8 flex flex-col justify-between gap-6 border-t border-border/50 pt-8 sm:flex-row sm:items-start"
         >
-          <div class="flex-1">
+          <div class="flex min-h-6 flex-1 flex-wrap items-center gap-2">
             {
               entry.data.tags && entry.data.tags.length > 0 && (
-                <div class="flex flex-wrap items-center gap-2">
+                <>
                   <span class="mr-2 text-sm font-medium text-muted-foreground">标签</span>
                   {entry.data.tags.map((tag) => (
                     <Badge variant="secondary">{tag}</Badge>
                   ))}
-                </div>
+                </>
               )
             }
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex h-6 shrink-0 items-center gap-2 sm:self-start">
             <span class="mr-2 text-sm font-medium text-muted-foreground">分享</span>
             {
               share.map((s) => (
@@ -132,11 +132,11 @@ const structuredData = {
                   title={s.linkTitle}
                   class={buttonVariants({
                     variant: 'ghost',
-                    size: 'icon',
+                    size: 'icon-xs',
                     className: 'rounded-full',
                   })}
                 >
-                  <SocialIcon name={s.name} className="size-4" />
+                  <SocialIcon name={s.name} className="size-3.5" />
                 </a>
               ))
             }

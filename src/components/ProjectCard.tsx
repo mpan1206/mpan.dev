@@ -50,7 +50,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   ) : null
 
   return (
-    <Card className="group relative flex h-full flex-col overflow-hidden bg-card/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl">
+    <Card className="group relative flex h-full flex-col overflow-hidden bg-card/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:ring-2 hover:ring-primary/20">
       {image_ &&
         (githubUrl ? (
           // Decorative duplicate of the title link; hidden from AT and keyboard.

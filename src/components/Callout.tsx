@@ -17,11 +17,11 @@ const iconMap: Record<CalloutType, LucideIcon> = {
 }
 
 const styles: Record<CalloutType, string> = {
-  info: 'border-l-blue-500 bg-blue-50 dark:bg-blue-950/30 [&_svg]:text-blue-500',
-  warning: 'border-l-amber-500 bg-amber-50 dark:bg-amber-950/30 [&_svg]:text-amber-500',
-  danger: 'border-l-red-500 bg-red-50 dark:bg-red-950/30 [&_svg]:text-red-500',
-  tip: 'border-l-purple-500 bg-purple-50 dark:bg-purple-950/30 [&_svg]:text-purple-500',
-  success: 'border-l-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 [&_svg]:text-emerald-500',
+  info: 'border-l-callout-info bg-callout-info/10 [&_svg]:text-callout-info',
+  warning: 'border-l-callout-warning bg-callout-warning/10 [&_svg]:text-callout-warning',
+  danger: 'border-l-callout-danger bg-callout-danger/10 [&_svg]:text-callout-danger',
+  tip: 'border-l-callout-tip bg-callout-tip/10 [&_svg]:text-callout-tip',
+  success: 'border-l-callout-success bg-callout-success/10 [&_svg]:text-callout-success',
 }
 
 /**

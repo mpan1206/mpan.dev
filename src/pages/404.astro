@@ -5,7 +5,6 @@ import Main from '@/components/Main.astro'
 import Footer from '@/components/Footer.tsx'
 import { buttonVariants } from '@/components/ui/button'
 import { Home, ArrowLeft } from 'lucide-react'
-import { cn } from '@/lib/utils'
 ---
 
 <Layout title="404 页面未找到" ogType="website">
@@ -32,19 +31,13 @@ import { cn } from '@/lib/utils'
       </p>
 
       <div class="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
-        <a
-          href="/"
-          class={cn(buttonVariants({ size: 'lg' }), 'h-12 gap-2 rounded-full px-8 text-base')}
-        >
+        <a href="/" class={buttonVariants({ size: 'lg' })}>
           <Home className="size-4" />
           返回首页
         </a>
         <button
           onclick="window.history.back()"
-          class={cn(
-            buttonVariants({ variant: 'outline', size: 'lg' }),
-            'h-12 gap-2 rounded-full px-8 text-base'
-          )}
+          class={buttonVariants({ variant: 'outline', size: 'lg' })}
         >
           <ArrowLeft className="size-4" />
           返回上一页

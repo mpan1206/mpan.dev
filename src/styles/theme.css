@@ -29,6 +29,12 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  --color-callout-info: var(--callout-info);
+  --color-callout-warning: var(--callout-warning);
+  --color-callout-danger: var(--callout-danger);
+  --color-callout-tip: var(--callout-tip);
+  --color-callout-success: var(--callout-success);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -61,6 +67,12 @@
   --accent-foreground: oklch(0.205 0 0);
 
   --destructive: oklch(0.577 0.245 27.325);
+
+  --callout-info: oklch(0.6 0.18 240);
+  --callout-warning: oklch(0.75 0.18 75);
+  --callout-danger: oklch(0.577 0.245 27.325);
+  --callout-tip: oklch(0.65 0.2 300);
+  --callout-success: oklch(0.65 0.18 155);
 
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -110,6 +122,12 @@
   --accent-foreground: oklch(0.985 0 0);
 
   --destructive: oklch(0.704 0.191 22.216);
+
+  --callout-info: oklch(0.7 0.15 240);
+  --callout-warning: oklch(0.8 0.15 75);
+  --callout-danger: oklch(0.704 0.191 22.216);
+  --callout-tip: oklch(0.75 0.15 300);
+  --callout-success: oklch(0.75 0.15 155);
 
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);

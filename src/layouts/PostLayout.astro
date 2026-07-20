@@ -14,7 +14,6 @@ import { Calendar, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { SocialIcon } from '@/components/SocialIcon'
 import Callout from '@/components/Callout'
-import Mermaid from '@/components/Mermaid.astro'
 import { getReadingTime } from '@/utils/readingTime'
 import { getPostUrl } from '@/utils/getPostPaths'
 import config from '@/config'
@@ -97,7 +96,7 @@ const structuredData = {
         <div
           class="slide-enter-content prose prose-base mb-12 max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-primary hover:prose-a:text-primary/80"
         >
-          <Content components={{ Callout, Mermaid }} />
+          <Content components={{ Callout }} />
         </div>
 
         <div

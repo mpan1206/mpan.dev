@@ -20,7 +20,7 @@ Author: Miles Pan (mpan1206). Site language: zh-CN. Live at <https://mpan.dev>.
 | Styling         | Tailwind CSS v4 via `@tailwindcss/vite`, CSS variables in `@theme inline`, `tw-animate-css` for animations |
 | Content         | Astro content collections (MDX via `@astrojs/mdx`), glob loader                                            |
 | Code blocks     | `astro-expressive-code` (github-light / github-dark themes)                                                |
-| Diagrams        | `mermaid` ^11 (client-side render via `Mermaid.astro`)                                                     |
+| Diagrams        | `rehype-mermaid` (build-time SVG rendering of standard ```mermaid code blocks)                             |
 | Search          | `pagefind` ^1 (post-build index, React UI in `src/components/search/`)                                     |
 | OG images       | `satori` ^0.26 + `sharp` — dynamic PNG generation (`src/lib/og/`, `src/pages/og.png.ts`)                   |
 | Icons           | `lucide-react` + `react-icons` (for social/share icons)                                                    |
@@ -101,7 +101,6 @@ src/
 │   ├── PostCard.tsx            # Blog post card
 │   ├── ProjectCard.tsx         # Project card
 │   ├── Callout.tsx             # MDX callout/admonition
-│   ├── Mermaid.astro           # Mermaid diagram wrapper
 │   └── SocialIcon.tsx          # Social link icon
 ├── content/
 │   ├── posts/                 # Blog posts (.md / .mdx)
@@ -202,13 +201,15 @@ Endpoints: `/og.png` (default) and `/posts/:slug/og.png` (per-post).
 
 ### Mermaid diagrams
 
-Use the `Mermaid.astro` wrapper component. It renders a `<pre class="mermaid">` block that the Mermaid client runtime hydrates. Usage in MDX:
+Mermaid diagrams are rendered at build time via `rehype-mermaid`. Use standard Markdown code blocks with the `mermaid` language:
 
-```mdx
-<Mermaid>
-  graph TD
-    A[Start] --> B[End]
-</Mermaid>
+````markdown
+```mermaid
+graph TD
+  A[Start] --> B[End]
+```
+````
+
 ```
 
 ### Expressive Code
@@ -252,3 +253,4 @@ Code blocks in MDX are rendered by `astro-expressive-code`. Themes: `github-ligh
 - `src/content.config.ts` — content collection schemas
 - `src/types.ts` — TypeScript type definitions for config
 - `.github/workflows/ci.yml` — required checks on PRs
+```

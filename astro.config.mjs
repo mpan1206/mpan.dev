@@ -6,12 +6,28 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import astroExpressiveCode from 'astro-expressive-code'
 import { defineConfig } from 'astro/config'
+import rehypeMermaid from 'rehype-mermaid'
 import config from './src/config.ts'
 import { getLastmod } from './src/utils/sitemap.ts'
 
 // https://astro.build/config
 export default defineConfig({
   site: config.site.meta.url,
+  markdown: {
+    syntaxHighlight: {
+      excludeLangs: ['mermaid'],
+    },
+    rehypePlugins: [
+      [
+        rehypeMermaid,
+        {
+          mermaidConfig: {
+            theme: 'neutral',
+          },
+        },
+      ],
+    ],
+  },
   integrations: [
     react(),
     astroExpressiveCode({

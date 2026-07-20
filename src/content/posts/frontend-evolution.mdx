@@ -13,7 +13,8 @@ description: '深入全面、图文并茂地解析前端从 HTML 到现代框架
 
 ## 📅 前端演进时间轴
 
-<Mermaid>{`timeline
+```mermaid
+timeline
     title 前端技术演进时间轴
     1990s : 静态网页时代 : HTML + 简单CSS <br> JSP/PHP服务端渲染
     2000s : 动态交互时代 : JavaScript + DOM API <br> AJAX诞生 (Web 2.0)
@@ -24,7 +25,7 @@ description: '深入全面、图文并茂地解析前端从 HTML 到现代框架
     2016+ : 元框架与全栈前端 : Next.js / Nuxt.js <br> SSR/SSG/性能/SEO
     2017-2020 : 工程化成熟期 : TypeScript普及 <br> Webpack → Vite <br> 工具链质变
     2020+ : 性能极致探索 : Svelte / Astro / Qwik <br> 无虚拟DOM / 孤岛架构 <br> 可恢复性探索
-`}</Mermaid>
+```
 
 ---
 
@@ -50,13 +51,14 @@ description: '深入全面、图文并茂地解析前端从 HTML 到现代框架
 - **工作模式**：服务器渲染主体 HTML，客户端通过 jQuery 监听事件 → 发送 AJAX 请求 → 获取数据 → **手动查找并修改 DOM**（例如 `$('#app').append(...)`）。
 - **痛点（面条式代码）**：随着交互越来越复杂，频繁且直接地操作 DOM 导致代码逻辑极其混乱，数据和视图高度耦合，维护起来像一团乱麻。
 
-<Mermaid>{`graph TD
+```mermaid
+graph TD
     A[用户操作] --> B(发起 AJAX 请求)
     B --> C{手动查找并比对 DOM 节点}
     C --> D[直接修改 DOM 呈现数据]
     D -.-> A
     style C fill:#f9d0c4,stroke:#333,stroke-width:2px
-`}</Mermaid>
+```
 
 > **演进动力**：复杂的 DOM 操作让开发者痛不欲生，需要一种更好的方式来组织代码，将**数据（Model）**和**视图（View）**分离开来，提升代码的可维护性。
 
@@ -92,13 +94,14 @@ description: '深入全面、图文并茂地解析前端从 HTML 到现代框架
 
 **核心公式：`UI = f(State)`** —— 界面只是状态的纯函数投影，开发者只需描述"应该是什么样"，而非"如何一步步改变"。
 
-<Mermaid>{`graph TD
+```mermaid
+graph TD
     A[State 状态发生改变] --> B(生成新的 Virtual DOM 树)
     B --> C{Diff 算法对比旧树}
     C --> D[计算出最小的 DOM 修改补丁 Patch]
     D --> E[批量更新真实 DOM]
     style C fill:#c4e1f9,stroke:#333
-`}</Mermaid>
+```
 
 ### 3. 三大框架的差异化定位
 
@@ -124,7 +127,8 @@ description: '深入全面、图文并茂地解析前端从 HTML 到现代框架
 - **SSG（Static Site Generation）**：在构建阶段提前将所有页面渲染成静态 HTML 文件。适合内容不频繁变动的场景（如博客、文档站），CDN 直出，性能天花板极高。
 - **ISR（Incremental Static Regeneration）**：Next.js 提出的折中方案，静态页面可按需在后台增量重新生成，兼顾 SSG 的性能与 SSR 的时效性。
 
-<Mermaid>{`sequenceDiagram
+```mermaid
+sequenceDiagram
     participant User as 用户浏览器
     participant Server as Node.js 服务器
     User->>Server: 1. 请求网页（URL）
@@ -134,7 +138,7 @@ description: '深入全面、图文并茂地解析前端从 HTML 到现代框架
     User->>User: 4. 下载对应的 JavaScript 包
     User->>User: 5. Hydration（水合）—— 重新执行组件树，绑定事件
     Note over User: 页面被彻底激活，可完全交互
-`}</Mermaid>
+```
 
 **关于 Hydration 的深层问题**：水合过程看似合理，实则存在一个固有缺陷——即使用户什么都不点，浏览器也必须下载完整的 JS 包，并**重新执行整棵组件树的逻辑**来"接管"页面状态。这意味着：页面越复杂，Hydration 的 JS 执行开销越大，用户从"能看到"到"真正能交互"之间的时间窗口（TTI，Time to Interactive）就越长。这正是下一阶段前沿技术要解决的核心矛盾。
 

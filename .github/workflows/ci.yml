@@ -56,6 +56,9 @@ jobs:
       - name: Type check
         run: pnpm run typecheck
 
+      - name: Unit tests
+        run: pnpm run test
+
       - name: Cache OG Images
         uses: actions/cache@v6
         with:
@@ -66,3 +69,6 @@ jobs:
 
       - name: Build
         run: pnpm run build
+
+      - name: E2E tests
+        run: pnpm run test:e2e

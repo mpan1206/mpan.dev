@@ -28,6 +28,8 @@ Author: Miles Pan (mpan1206). Site language: zh-CN. Live at <https://mpan.dev>.
 | Language        | TypeScript strict (`extends: astro/tsconfigs/strict`), path alias `@/*` → `./src/*`                        |
 | Package manager | **pnpm** only (`packageManager` pinned in `package.json`)                                                  |
 | Node            | `engines.node` `>=22.12.0`                                                                                 |
+| Unit tests      | `vitest` ^4 — config in `vitest.config.ts`, test files at `tests/unit/**/*.test.ts`                        |
+| E2E tests       | `@playwright/test` ^1 — config in `playwright.config.ts`, test files at `tests/e2e/**/*.spec.ts`           |
 
 ## Commands
 
@@ -40,9 +42,13 @@ pnpm lint          # ESLint (flat config; **/*.{ts,tsx} only)
 pnpm format        # Prettier write (astro + tailwindcss plugins)
 pnpm format:check  # Prettier check
 pnpm typecheck     # astro check (.astro + .ts/.tsx)
+pnpm test          # vitest run (unit tests, no build needed)
+pnpm test:watch    # vitest watch mode
+pnpm test:e2e      # playwright test (requires prior pnpm build)
+pnpm test:e2e:ui   # playwright test --ui (interactive)
 ```
 
-CI (`.github/workflows/ci.yml`) runs: `lint` → `format:check` → `typecheck` → `build` with `pnpm install --frozen-lockfile`.
+CI (`.github/workflows/ci.yml`) runs: `lint` → `format:check` → `typecheck` → **`test`** → `build` → **`test:e2e`** with `pnpm install --frozen-lockfile`.
 
 Add shadcn/ui components (prefer CLI over hand-rolling equivalents):
 
@@ -230,13 +236,14 @@ Code blocks in MDX are rendered by `astro-expressive-code`. Themes: `github-ligh
 3. **Do not commit secrets** — No API keys, tokens, or `.env` contents (`.env*` is gitignored).
 4. **Prefer CLI for shadcn** — `npx shadcn@latest add <name>`; avoid inventing a parallel UI kit.
 5. **Do not hand-edit lockfile** — Change deps via `pnpm add` / `pnpm remove`.
-6. **Verify before claiming done** — At minimum run what CI runs for your change: `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, and `pnpm build` when relevant.
+6. **Verify before claiming done** — At minimum run what CI runs for your change: `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test`, and `pnpm build` when relevant.
 7. **Astro client directives** — Interactive React components used from `.astro` need an appropriate `client:*` directive.
 8. **Path alias** — Use `@/` for `src/` imports; avoid deep relative paths when the alias works.
 9. **Content changes** — Posts and projects go in `src/content/`; validate frontmatter against schemas in `content.config.ts`.
 10. **Build includes Pagefind** — `pnpm build` also runs `pagefind --site dist`; the build output must include a search index.
 11. **CSS organization** — Global tokens in `theme.css` and `global.css`; animations in `animations.css`; component styles in `components.css`; utilities in `utilities.css`. New component styles go in the right file.
 12. **Config, not hardcoding** — Use `src/config.ts` for site metadata, nav links, and social links instead of hardcoding values in templates.
+13. **Tests** — Unit tests (Vitest) go in `tests/unit/`. E2E tests (Playwright) go in `tests/e2e/`. Unit tests must not depend on a build; E2E tests run against `pnpm preview` and require `pnpm build` first.
 
 ## Out of scope (unless asked)
 

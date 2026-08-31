@@ -5,6 +5,7 @@ import ThemeToggle from '@/components/ThemeToggle.astro'
 import { SocialIcon } from '@/components/SocialIcon'
 import MobileMenu from '@/components/MobileMenu'
 import Search from '@/components/search/Search'
+import { getAssetPath } from '@/utils/withBase'
 import config from '@/config'
 
 const { site, nav, social } = config
@@ -28,10 +29,14 @@ const localizedNav = nav.map((link) => ({
           {
             site.brand.logo ? (
               <>
-                <img src={site.brand.logo} alt={site.meta.title} class="h-8 w-auto dark:hidden" />
+                <img
+                  src={getAssetPath(site.brand.logo)}
+                  alt={site.meta.title}
+                  class="h-8 w-auto dark:hidden"
+                />
                 {site.brand.logoDark && (
                   <img
-                    src={site.brand.logoDark}
+                    src={getAssetPath(site.brand.logoDark)}
                     alt={site.meta.title}
                     class="hidden h-8 w-auto dark:block"
                   />

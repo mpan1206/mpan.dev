@@ -118,16 +118,31 @@ export interface PostCardProps {
   readingTime?: string
 }
 
+export type ProjectCategoryKey = 'web' | 'cli' | 'devops' | 'template' | 'other'
+
+export const CATEGORY_LABELS: Record<ProjectCategoryKey, string> = {
+  web: 'Web 应用',
+  cli: 'CLI & 工具',
+  devops: '工程化 & DevOps',
+  template: '配置 & 模板',
+  other: '其他',
+}
+
 export interface ProjectCardProps {
   title: string
   description: string
-  date: Date
+  date: Date | string
   tags?: string[]
   image?: string | ImageMetadata
   githubUrl?: string
+  demoUrl?: string
+  npmUrl?: string
   license?: string
   status?: string
   language?: string
+  category?: ProjectCategoryKey
+  highlights?: string[]
+  featured?: boolean
 }
 
 export interface SocialIconProps {

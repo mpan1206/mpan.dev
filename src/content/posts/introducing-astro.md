@@ -111,7 +111,9 @@ const items = ['性能', '灵活', '易用']
 <section>
   <h2>你好，{name}!</h2>
   <ul>
-    {items.map((item) => <li>{item}</li>)}
+    {items.map((item) => (
+      <li>{item}</li>
+    ))}
   </ul>
 </section>
 

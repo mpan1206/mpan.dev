@@ -19,16 +19,14 @@ const backUrl = recordBackUrl ? Astro.url.pathname : undefined
     className,
   ]}
 >
-  {
-    pageTitle && (
-      <div class="mb-12">
-        <h1 class="mb-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          {pageTitle}
-        </h1>
-        {pageDesc && <p class="text-xl text-muted-foreground">{pageDesc}</p>}
-      </div>
-    )
-  }
+  {pageTitle && (
+    <div class="mb-12">
+      <h1 class="mb-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+        {pageTitle}
+      </h1>
+      {pageDesc && <p class="text-xl text-muted-foreground">{pageDesc}</p>}
+    </div>
+  )}
   <slot />
 </main>
 

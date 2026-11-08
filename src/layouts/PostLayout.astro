@@ -68,7 +68,9 @@ const structuredData = {
       <div class="hidden w-64 shrink-0 lg:block"></div>
 
       <article class="slide-enter-content w-full max-w-3xl min-w-0" data-pagefind-body>
-        <div data-pagefind-ignore><BackButton className="mb-8" /></div>
+        <div data-pagefind-ignore>
+          <BackButton className="mb-8" />
+        </div>
         <header class="mb-12 text-left">
           <h1 class="mb-6 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {entry.data.title}
@@ -77,13 +79,11 @@ const structuredData = {
             <div class="flex items-center gap-1.5">
               <Calendar className="size-4" />
               <time datetime={entry.data.publishDate.toISOString()}>
-                {
-                  entry.data.publishDate.toLocaleDateString('zh-CN', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })
-                }
+                {entry.data.publishDate.toLocaleDateString('zh-CN', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
               </time>
             </div>
             <div class="flex items-center gap-1.5">
@@ -93,9 +93,7 @@ const structuredData = {
           </div>
         </header>
 
-        <div
-          class="slide-enter-content prose prose-base mb-12 max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-primary hover:prose-a:text-primary/80"
-        >
+        <div class="slide-enter-content prose prose-base mb-12 max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-primary hover:prose-a:text-primary/80">
           <Content components={{ Callout }} />
         </div>
 
@@ -104,86 +102,80 @@ const structuredData = {
           class="mt-8 flex flex-col justify-between gap-6 border-t border-border/50 pt-8 sm:flex-row sm:items-start"
         >
           <div class="flex min-h-6 flex-1 flex-wrap items-center gap-2">
-            {
-              entry.data.tags && entry.data.tags.length > 0 && (
-                <>
-                  <span class="mr-2 text-sm font-medium text-muted-foreground">标签</span>
-                  {entry.data.tags.map((tag) => (
-                    <Badge variant="secondary">{tag}</Badge>
-                  ))}
-                </>
-              )
-            }
+            {entry.data.tags && entry.data.tags.length > 0 && (
+              <>
+                <span class="mr-2 text-sm font-medium text-muted-foreground">标签</span>
+                {entry.data.tags.map((tag) => (
+                  <Badge variant="secondary">{tag}</Badge>
+                ))}
+              </>
+            )}
           </div>
           <div class="flex h-6 shrink-0 items-center gap-2 sm:self-start">
             <span class="mr-2 text-sm font-medium text-muted-foreground">分享</span>
-            {
-              share.map((s) => (
-                <a
-                  href={generateShareUrl(
-                    s.name,
-                    new URL(postUrl, site.meta.url).href,
-                    entry.data.title,
-                    entry.data.description
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.linkTitle}
-                  title={s.linkTitle}
-                  class={buttonVariants({
-                    variant: 'ghost',
-                    size: 'icon-xs',
-                    className: 'rounded-full',
-                  })}
-                >
-                  <SocialIcon name={s.name} className="size-3.5" />
-                </a>
-              ))
-            }
+            {share.map((s) => (
+              <a
+                href={generateShareUrl(
+                  s.name,
+                  new URL(postUrl, site.meta.url).href,
+                  entry.data.title,
+                  entry.data.description
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.linkTitle}
+                title={s.linkTitle}
+                class={buttonVariants({
+                  variant: 'ghost',
+                  size: 'icon-xs',
+                  className: 'rounded-full',
+                })}
+              >
+                <SocialIcon name={s.name} className="size-3.5" />
+              </a>
+            ))}
           </div>
         </div>
 
-        {
-          (prevEntry || nextEntry) && (
-            <nav
-              data-pagefind-ignore
-              class="mt-12 flex flex-col items-center justify-between gap-6 border-t border-border/50 pt-8 sm:flex-row"
-              aria-label="Pagination"
-            >
-              {prevEntry ? (
-                <a
-                  href={prevUrl}
-                  class="group flex w-full flex-col gap-2 rounded-lg border border-border/30 p-4 text-left transition-colors hover:border-border/70 hover:bg-muted/50 sm:w-1/2"
-                >
-                  <span class="flex items-center gap-1 text-sm text-muted-foreground">
-                    <ChevronLeft className="size-4" /> 上一篇
-                  </span>
-                  <span class="line-clamp-2 text-lg font-medium transition-colors group-hover:text-primary">
-                    {prevEntry.data.title}
-                  </span>
-                </a>
-              ) : (
-                <div class="hidden sm:block sm:w-1/2" />
-              )}
+        {(prevEntry || nextEntry) && (
+          <nav
+            data-pagefind-ignore
+            class="mt-12 flex flex-col items-center justify-between gap-6 border-t border-border/50 pt-8 sm:flex-row"
+            aria-label="Pagination"
+          >
+            {prevEntry ? (
+              <a
+                href={prevUrl}
+                class="group flex w-full flex-col gap-2 rounded-lg border border-border/30 p-4 text-left transition-colors hover:border-border/70 hover:bg-muted/50 sm:w-1/2"
+              >
+                <span class="flex items-center gap-1 text-sm text-muted-foreground">
+                  <ChevronLeft className="size-4" /> 上一篇
+                </span>
+                <span class="line-clamp-2 text-lg font-medium transition-colors group-hover:text-primary">
+                  {prevEntry.data.title}
+                </span>
+              </a>
+            ) : (
+              <div class="hidden sm:block sm:w-1/2" />
+            )}
 
-              {nextEntry ? (
-                <a
-                  href={nextUrl}
-                  class="group flex w-full flex-col items-start gap-2 rounded-lg border border-border/30 p-4 text-left transition-colors hover:border-border/70 hover:bg-muted/50 sm:w-1/2 sm:items-end sm:text-right"
-                >
-                  <span class="flex items-center gap-1 text-sm text-muted-foreground">
-                    下一篇 <ChevronRight className="size-4" />
-                  </span>
-                  <span class="line-clamp-2 text-left text-lg font-medium transition-colors group-hover:text-primary sm:text-right">
-                    {nextEntry.data.title}
-                  </span>
-                </a>
-              ) : (
-                <div class="hidden sm:block sm:w-1/2" />
-              )}
-            </nav>
-          )
-        }
+            {nextEntry ? (
+              <a
+                href={nextUrl}
+                class="group flex w-full flex-col items-start gap-2 rounded-lg border border-border/30 p-4 text-left transition-colors hover:border-border/70 hover:bg-muted/50 sm:w-1/2 sm:items-end sm:text-right"
+              >
+                <span class="flex items-center gap-1 text-sm text-muted-foreground">
+                  下一篇 <ChevronRight className="size-4" />
+                </span>
+                <span class="line-clamp-2 text-left text-lg font-medium transition-colors group-hover:text-primary sm:text-right">
+                  {nextEntry.data.title}
+                </span>
+              </a>
+            ) : (
+              <div class="hidden sm:block sm:w-1/2" />
+            )}
+          </nav>
+        )}
       </article>
       <aside class="hidden w-64 shrink-0 lg:block">
         <div class="fixed top-36 w-64">

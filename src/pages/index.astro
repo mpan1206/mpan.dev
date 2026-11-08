@@ -40,9 +40,7 @@ const { social } = config
 <Layout ogType="website">
   <Header />
   <Main class="max-w-3xl">
-    <article
-      class="slide-enter-content prose max-w-none text-base leading-relaxed text-foreground/80 prose-zinc dark:prose-invert prose-headings:font-semibold prose-a:font-normal prose-a:text-foreground prose-a:no-underline prose-a:decoration-primary/20 prose-a:underline-offset-4 prose-a:transition-all prose-a:hover:text-primary prose-a:hover:underline prose-a:hover:decoration-primary/50"
-    >
+    <article class="slide-enter-content prose max-w-none text-base leading-relaxed text-foreground/80 prose-zinc dark:prose-invert prose-headings:font-semibold prose-a:font-normal prose-a:text-foreground prose-a:no-underline prose-a:decoration-primary/20 prose-a:underline-offset-4 prose-a:transition-all prose-a:hover:text-primary prose-a:hover:underline prose-a:hover:decoration-primary/50">
       <header class="not-prose mb-6">
         <h1 class="font-mono text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           Hey，我是 Miles Pan
@@ -149,7 +147,8 @@ const { social } = config
             >
               <SiShadcnui className="self-center text-foreground" aria-hidden="true" />
               shadcn/ui
-            </a>等组件库；全栈与企业级架构熟悉
+            </a>
+            等组件库；全栈与企业级架构熟悉
             <a
               href="https://umijs.org/"
               target="_blank"
@@ -200,8 +199,8 @@ const { social } = config
               <SiPinia className="self-center text-[#FFE15D]" aria-hidden="true" />
               Pinia
             </a>{' '}
-            / Vuex 状态管理，结合 Element Plus、Ant Design Vue 及 Vant UI，熟悉 B 端后台管理系统与 C 端移动
-            Web 敏捷落地与架构经验；同时熟悉
+            / Vuex 状态管理，结合 Element Plus、Ant Design Vue 及 Vant UI，熟悉 B 端后台管理系统与 C
+            端移动 Web 敏捷落地与架构经验；同时熟悉
             <a
               href="https://nuxt.com/"
               target="_blank"
@@ -227,8 +226,8 @@ const { social } = config
             原生应用开发上有着丰富积累，熟悉 ArkTS / ArkUI、声明式 UI 范式及 C++ NAPI 跨层互调。
           </li>
           <li class="leading-relaxed">
-            <strong class="font-medium text-foreground">跨端与大前端</strong
-            >：熟悉跨平台与大型前端应用架构开发。涵盖基于
+            <strong class="font-medium text-foreground">跨端与大前端</strong>
+            ：熟悉跨平台与大型前端应用架构开发。涵盖基于
             <a
               href="https://uniapp.dcloud.net.cn/"
               target="_blank"
@@ -281,8 +280,8 @@ const { social } = config
             SFU 架构，熟悉 P2P 双向通话及多人音视频会议 SDK 的封装与落地。
           </li>
           <li class="leading-relaxed">
-            <strong class="font-medium text-foreground">后端与数据库</strong
-            >：熟悉全栈后端服务开发。熟悉基于
+            <strong class="font-medium text-foreground">后端与数据库</strong>
+            ：熟悉全栈后端服务开发。熟悉基于
             <a
               href="https://nodejs.org/"
               target="_blank"
@@ -442,8 +441,8 @@ const { social } = config
               Antigravity
             </a>{' '}
             等智能体为日常结对伙伴，完成跨文件实现、重构、调试与代码审查。关注
-            <strong>Context Engineering</strong
-            >（项目级指令、会话记忆、工具结果回灌与上下文窗口预算），而不仅是单次 Prompt；通过
+            <strong>Context Engineering</strong>
+            （项目级指令、会话记忆、工具结果回灌与上下文窗口预算），而不仅是单次 Prompt；通过
             <a
               href="https://modelcontextprotocol.io/"
               target="_blank"
@@ -470,16 +469,14 @@ const { social } = config
           智能体的深度辅助，我从零到一搭建了这个个人网站。后续我会在这里：
         </p>
 
-        <ul
-          class="mt-4 list-outside list-disc space-y-2 pl-5 text-muted-foreground marker:text-muted-foreground/50"
-        >
+        <ul class="mt-4 list-outside list-disc space-y-2 pl-5 text-muted-foreground marker:text-muted-foreground/50">
           <li>
             <strong class="font-medium text-foreground">沉淀技术思考</strong>：记录关于 Web
             架构、设计美学以及 AI 工程化的实践心得。
           </li>
           <li>
-            <strong class="font-medium text-foreground">展示项目作品</strong
-            >：陈列我独立构建或参与维护的开源工具、全栈产品与实验性 Demo。
+            <strong class="font-medium text-foreground">展示项目作品</strong>
+            ：陈列我独立构建或参与维护的开源工具、全栈产品与实验性 Demo。
           </li>
           <li>
             <strong class="font-medium text-foreground">试验前沿技术</strong>：作为验证最新 Web
@@ -488,15 +485,22 @@ const { social } = config
         </ul>
 
         <p class="mt-4 leading-relaxed text-muted-foreground">
-          你可以点击这里查看我的<a
+          你可以点击这里查看我的
+          <a
             href="/projects/"
             class="rounded-xs focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-            >完整项目列表</a
-          >，或者在 <a
+          >
+            完整项目列表
+          </a>
+          ，或者在{' '}
+          <a
             href="/posts/"
             class="rounded-xs focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-            >文章</a
-          > 中阅读我关于开发和设计的分享。如果你对我的项目感兴趣，非常欢迎提交 Issue 或贡献代码，一起参与开源建设！
+          >
+            文章
+          </a>{' '}
+          中阅读我关于开发和设计的分享。如果你对我的项目感兴趣，非常欢迎提交 Issue
+          或贡献代码，一起参与开源建设！
         </p>
       </section>
 
@@ -509,40 +513,36 @@ const { social } = config
         </h2>
         <nav aria-label="社交平台链接" class="mb-6">
           <ul class="flex flex-wrap gap-4" role="list">
-            {
-              social
-                .filter((s) => s.placements.includes('hero'))
-                .map((s) => (
-                  <li>
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="flex items-center gap-1.5 rounded-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
-                      title={s.linkTitle}
-                      aria-label={s.linkTitle}
-                    >
-                      <SocialIcon name={s.name} className="size-4" />
-                      <span>{s.linkTitle}</span>
-                    </a>
-                  </li>
-                ))
-            }
+            {social
+              .filter((s) => s.placements.includes('hero'))
+              .map((s) => (
+                <li>
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-1.5 rounded-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+                    title={s.linkTitle}
+                    aria-label={s.linkTitle}
+                  >
+                    <SocialIcon name={s.name} className="size-4" />
+                    <span>{s.linkTitle}</span>
+                  </a>
+                </li>
+              ))}
           </ul>
         </nav>
-        {
-          config.site.meta.email && (
-            <address class="text-sm text-muted-foreground not-italic">
-              或者发送邮件至{' '}
-              <a
-                href={`mailto:${config.site.meta.email}`}
-                class="rounded-xs font-medium text-foreground underline decoration-primary/20 underline-offset-4 transition-colors hover:text-primary hover:decoration-primary/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
-              >
-                {config.site.meta.email}
-              </a>
-            </address>
-          )
-        }
+        {config.site.meta.email && (
+          <address class="text-sm text-muted-foreground not-italic">
+            或者发送邮件至{' '}
+            <a
+              href={`mailto:${config.site.meta.email}`}
+              class="rounded-xs font-medium text-foreground underline decoration-primary/20 underline-offset-4 transition-colors hover:text-primary hover:decoration-primary/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+            >
+              {config.site.meta.email}
+            </a>
+          </address>
+        )}
       </section>
     </article>
   </Main>

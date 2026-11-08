@@ -14,21 +14,19 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 2)
   style="--enter-stage: 3;"
 >
   <h2 class="mb-4 text-base font-semibold tracking-tight">目录</h2>
-  {
-    filteredHeadings.length === 0 ? (
-      <p class="text-sm text-muted-foreground">暂无目录</p>
-    ) : (
-      <ul id="toc" class="flex flex-col gap-2.5 text-sm text-muted-foreground">
-        {filteredHeadings.map((heading) => (
-          <li
-            class={`line-clamp-2 transition-colors hover:text-foreground ${heading.depth === 3 ? 'ml-4 text-[13px]' : ''}`}
-          >
-            <a href={`#${heading.slug}`}>{heading.text}</a>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  {filteredHeadings.length === 0 ? (
+    <p class="text-sm text-muted-foreground">暂无目录</p>
+  ) : (
+    <ul id="toc" class="flex flex-col gap-2.5 text-sm text-muted-foreground">
+      {filteredHeadings.map((heading) => (
+        <li
+          class={`line-clamp-2 transition-colors hover:text-foreground ${heading.depth === 3 ? 'ml-4 text-[13px]' : ''}`}
+        >
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>
+      ))}
+    </ul>
+  )}
 </nav>
 
 <script>

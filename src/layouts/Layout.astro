@@ -90,9 +90,7 @@ const socialImageURL = ogImage ? new URL(ogImage, site.meta.url).href : undefine
 
     <ClientRouter />
   </head>
-  <body
-    class="flex min-h-svh flex-col bg-background font-sans text-foreground antialiased selection:bg-primary selection:text-primary-foreground"
-  >
+  <body class="flex min-h-svh flex-col bg-background font-sans text-foreground antialiased selection:bg-primary selection:text-primary-foreground">
     <slot />
     <script>
       import NProgress from 'nprogress'

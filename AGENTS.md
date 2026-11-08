@@ -27,7 +27,7 @@ Author: Miles Pan (mpan1206). Site language: zh-CN. Live at <https://mpan.dev>.
 | Font            | Inter Variable (`@fontsource-variable/inter`) + Noto Sans SC Bold (OG images)                              |
 | Language        | TypeScript strict (`extends: astro/tsconfigs/strict`), path alias `@/*` → `./src/*`                        |
 | Package manager | **pnpm** only (`packageManager` pinned in `package.json`)                                                  |
-| Node            | `engines.node` `>=22.12.0`                                                                                 |
+| Node            | `engines.node` `>=24.0.0`                                                                                  |
 | Unit tests      | `vitest` ^4 — config in `vitest.config.ts`, test files at `tests/unit/**/*.test.ts`                        |
 | E2E tests       | `@playwright/test` ^1 — config in `playwright.config.ts`, test files at `tests/e2e/**/*.spec.ts`           |
 
